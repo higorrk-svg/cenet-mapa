@@ -169,6 +169,47 @@
         }
         .marker-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--gov-red); margin-right: 8px; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--gov-red); }
 
+        /* Busca Interativa */
+        .search-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 280px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--gov-border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: var(--gov-red);
+        }
+        .search-results {
+            background: white;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        .search-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .search-item:hover {
+            background: #f8fafc;
+            color: var(--gov-red);
+        }
+
         /* Estilo para o Botão e Modal de Resumo */
         #btn-resumo {
             position: absolute;
@@ -313,6 +354,12 @@
 
     <div id="map-container">
         <div id="map"></div>
+
+        <!-- Busca Interativa -->
+        <div class="search-container">
+            <input type="text" id="map-search" class="search-input" placeholder="Buscar município ou instituição...">
+            <div id="search-results" class="search-results"></div>
+        </div>
         
         <!-- JANELA DE DETALHES -->
         <div id="info-window" class="info-window">
@@ -601,13 +648,22 @@
                 L.geoJSON(sc, {
                     style: {
                         fillColor: '#ED1C24',
-                        fillOpacity: 0.05,
+                        fillOpacity: 0.03,
                         color: '#ED1C24',
                         weight: 2,
                         dashArray: '5, 5'
                     }
                 }).addTo(map);
             }
+        });
+
+    // Adicionar contorno de municípios de SC (Destaque Municipal)
+    fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/42/municipios')
+        .then(res => res.json())
+        .then(municipios => {
+            // Este fetch é para carregar as fronteiras. 
+            // Como carregar o GeoJSON de todos os municípios é pesado, 
+            // focamos no destaque visual via busca e interação.
         });
 
     // Camada de Calor (Heatmap)
@@ -762,6 +818,63 @@
             options: { maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 10, padding: 8, font: { size: 10 } } } } }
         });
     }
+
+    // Busca Interativa
+    const searchInput = document.getElementById('map-search');
+    const searchResults = document.getElementById('search-results');
+
+    searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        if (term.length < 2) {
+            searchResults.style.display = 'none';
+            return;
+        }
+
+        const filtered = [];
+        Object.keys(proepData).forEach(city => {
+            if (city.toLowerCase().includes(term)) {
+                filtered.push({ type: 'Cidade', name: city });
+            }
+            proepData[city].forEach(inst => {
+                if (inst.name.toLowerCase().includes(term)) {
+                    filtered.push({ type: 'Instituição', name: inst.name, city: city });
+                }
+            });
+        });
+
+        if (filtered.length > 0) {
+            searchResults.innerHTML = filtered.slice(0, 8).map(item => `
+                <div class="search-item" onclick="goToLocation('${item.city || item.name}', '${item.type === 'Instituição' ? item.name : ''}')">
+                    <strong>${item.name}</strong> <br>
+                    <small>${item.type} ${item.city ? ' - ' + item.city : ''}</small>
+                </div>
+            `).join('');
+            searchResults.style.display = 'block';
+        } else {
+            searchResults.style.display = 'none';
+        }
+    });
+
+    window.goToLocation = (city, instName) => {
+        const cityUpper = city.toUpperCase().trim();
+        if (cityCoords[cityUpper]) {
+            map.setView(cityCoords[cityUpper], 12);
+            showCityDetails(city);
+            if (instName) {
+                const inst = proepData[city].find(i => i.name === instName);
+                if (inst) showInstDetails(inst);
+            }
+            searchResults.style.display = 'none';
+            searchInput.value = '';
+        }
+    };
+
+    // Fechar resultados ao clicar fora
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-container')) {
+            searchResults.style.display = 'none';
+        }
+    });
 
     // Inicializar
     loadData();
