@@ -59,10 +59,23 @@
             gap: 1.25rem; 
             border-right: 1px solid var(--gov-border); 
             z-index: 1002;
+            transition: transform 0.3s ease;
         }
 
         #map-container { flex: 1; position: relative; background: #e5e5e5; }
         #map { height: 100%; width: 100%; }
+
+        /* Responsividade Mobile */
+        @media (max-width: 992px) {
+            body { overflow: auto; height: auto; }
+            header { padding: 0.5rem 1rem; flex-direction: column; text-align: center; gap: 10px; }
+            .header-title { text-align: center; }
+            #main-container { flex-direction: column-reverse; height: auto; overflow: visible; }
+            #sidebar { width: 100%; border-right: none; border-top: 1px solid var(--gov-border); overflow: visible; }
+            #map-container { height: 500px; width: 100%; }
+            .info-window { width: 90%; right: 5%; top: 10px; }
+            .search-container { width: calc(100% - 40px); left: 20px; top: 10px; }
+        }
 
         .card { 
             background: var(--gov-white); 

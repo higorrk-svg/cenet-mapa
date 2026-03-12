@@ -32,6 +32,16 @@
         main { flex: 1; padding: 40px; overflow-y: auto; }
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
         h1 { font-size: 24px; color: var(--gov-black); }
+
+        /* Responsividade Admin */
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            aside { width: 100%; padding: 20px; }
+            main { padding: 20px; }
+            .grid { grid-template-columns: 1fr; }
+            header { flex-direction: column; text-align: center; gap: 10px; }
+            .card { padding: 20px; }
+        }
         
         .card { background: white; padding: 30px; border-radius: 12px; border: 1px solid var(--gov-border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 30px; }
         .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
