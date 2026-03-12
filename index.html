@@ -210,6 +210,17 @@
             color: var(--gov-red);
         }
 
+        .mun-tooltip {
+            background: rgba(35, 31, 32, 0.9) !important;
+            border: none !important;
+            color: white !important;
+            font-weight: 600 !important;
+            font-size: 10px !important;
+            padding: 4px 8px !important;
+            border-radius: 4px !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+        }
+
         /* Estilo para o Botão e Modal de Resumo */
         #btn-resumo {
             position: absolute;
@@ -648,23 +659,43 @@
                 L.geoJSON(sc, {
                     style: {
                         fillColor: '#ED1C24',
-                        fillOpacity: 0.03,
-                        color: '#ED1C24',
-                        weight: 2,
-                        dashArray: '5, 5'
+                        fillOpacity: 0.02,
+                        color: '#231F20',
+                        weight: 3,
+                        dashArray: ''
                     }
                 }).addTo(map);
             }
         });
 
-    // Adicionar contorno de municípios de SC (Destaque Municipal)
-    fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/42/municipios')
+    // Adicionar Malha Municipal (Divisão de Municípios)
+    fetch('https://raw.githubusercontent.com/luizalg/geojson-sc/master/sc_municipios.json')
         .then(res => res.json())
-        .then(municipios => {
-            // Este fetch é para carregar as fronteiras. 
-            // Como carregar o GeoJSON de todos os municípios é pesado, 
-            // focamos no destaque visual via busca e interação.
-        });
+        .then(geoData => {
+            L.geoJSON(geoData, {
+                style: (feature) => {
+                    const munName = feature.properties.NM_MUNICIP || feature.properties.name;
+                    const hasProgram = proepData[munName.toUpperCase().trim()];
+                    return {
+                        fillColor: hasProgram ? '#ED1C24' : '#ffffff',
+                        fillOpacity: hasProgram ? 0.2 : 0.01,
+                        color: '#e1e4e8',
+                        weight: 0.5
+                    };
+                },
+                onEachFeature: (feature, layer) => {
+                    const munName = feature.properties.NM_MUNICIP || feature.properties.name;
+                    layer.bindTooltip(munName, { sticky: true, className: 'mun-tooltip' });
+                    
+                    // Se clicar no polígono do município, também abre os detalhes
+                    layer.on('click', () => {
+                        const munUpper = munName.toUpperCase().trim();
+                        if (proepData[munUpper]) showCityDetails(munUpper);
+                    });
+                }
+            }).addTo(map);
+        })
+        .catch(err => console.error('Erro ao carregar malha municipal:', err));
 
     // Camada de Calor (Heatmap)
     let heatLayer = null;
