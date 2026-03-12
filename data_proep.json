@@ -1,0 +1,56 @@
+{
+  "SÃO MIGUEL DO OESTE": [
+    {
+      "name": "APAE SÃO MIGUEL DO OESTE",
+      "ini_t": 1,
+      "ini_a": 7,
+      "pre_t": 0,
+      "pre_a": 0
+    }
+  ],
+  "CHAPECÓ": [
+    {
+      "name": "AMA CHAPECÓ",
+      "ini_t": 2,
+      "ini_a": 16,
+      "pre_t": 0,
+      "pre_a": 0
+    }
+  ],
+  "XANXERÊ": [
+    {
+      "name": "APAE XANXERÊ",
+      "ini_t": 1,
+      "ini_a": 11,
+      "pre_t": 0,
+      "pre_a": 0
+    }
+  ],
+  "FLORIANÓPOLIS": [
+    {
+      "name": "APAE DE FLORIANÓPOLIS",
+      "ini_t": 2,
+      "ini_a": 19,
+      "pre_t": 4,
+      "pre_a": 50
+    }
+  ],
+  "SÃO JOSÉ": [
+    {
+      "name": "APAE DE SAO JOSÉ",
+      "ini_t": 5,
+      "ini_a": 64,
+      "pre_t": 0,
+      "pre_a": 0
+    }
+  ],
+  "ITAJAÍ": [
+    {
+      "name": "APAE DE ITAJAÍ",
+      "ini_t": 2,
+      "ini_a": 14,
+      "pre_t": 3,
+      "pre_a": 62
+    }
+  ]
+}

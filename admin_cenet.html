@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claw Admin | Painel PROEP - FCEE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gov-red: #ED1C24;
+            --gov-black: #231F20;
+            --gov-gray: #f4f7f6;
+            --gov-white: #ffffff;
+            --gov-border: #e1e4e8;
+            --success: #398e4f;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--gov-gray); display: flex; min-height: 100vh; }
+        
+        aside { width: 280px; background: var(--gov-black); color: white; padding: 30px 20px; flex-shrink: 0; }
+        .logo-box { padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px; text-align: center; }
+        .logo-box h2 { font-size: 1.2rem; color: var(--gov-red); letter-spacing: 2px; }
+        
+        nav ul { list-style: none; }
+        nav li { margin-bottom: 10px; }
+        nav a { color: #aaa; text-decoration: none; font-size: 13px; display: block; padding: 12px 15px; border-radius: 6px; transition: 0.3s; }
+        nav a:hover, nav a.active { background: rgba(237, 28, 36, 0.1); color: var(--gov-red); }
+
+        main { flex: 1; padding: 40px; overflow-y: auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        h1 { font-size: 24px; color: var(--gov-black); }
+        
+        .card { background: white; padding: 30px; border-radius: 12px; border: 1px solid var(--gov-border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        
+        .upload-area { border: 2px dashed var(--gov-border); padding: 40px; text-align: center; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-bottom: 30px; }
+        .upload-area:hover { border-color: var(--gov-red); background: rgba(237, 28, 36, 0.02); }
+        .upload-icon { font-size: 40px; color: #ccc; margin-bottom: 15px; display: block; }
+        
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+        .data-table th { text-align: left; padding: 12px; background: #f8fafc; border-bottom: 2px solid var(--gov-border); color: #666; text-transform: uppercase; font-size: 11px; }
+        .data-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        
+        .btn { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.3s; text-transform: uppercase; }
+        .btn-primary { background: var(--gov-red); color: white; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+        
+        .status-badge { font-size: 10px; padding: 4px 8px; border-radius: 20px; font-weight: 700; text-transform: uppercase; }
+        .status-sync { background: #e7f5ed; color: var(--success); }
+
+        .log-box { margin-top: 30px; background: #2d3436; color: #dfe6e9; padding: 20px; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 12px; }
+        .log-box h4 { color: #fab1a0; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="logo-box">
+            <h2>FCEE | CENET</h2>
+            <p style="font-size: 10px; opacity: 0.5; margin-top: 5px;">Sistema de Gestão PROEP</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Upload de Dados</a></li>
+                <li><a href="#">Gerenciar APAEs</a></li>
+                <li><a href="#">Relatórios Gerenciais</a></li>
+                <li><a href="#">Sincronização Git</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <header>
+            <h1>Administração do Painel</h1>
+            <div style="font-size: 12px; color: #777;">Operador: Higor . 12 de Março, 2026</div>
+        </header>
+
+        <div class="card">
+            <div class="form-header">
+                <h3>Sincronização de Dados (Excel para JSON)</h3>
+                <span class="status-badge status-sync">Sistema Online</span>
+            </div>
+
+            <p style="font-size: 14px; color: #555; margin-bottom: 20px;">Suba a planilha consolidada para atualizar automaticamente o mapa e os gráficos do painel público.</p>
+
+            <div class="upload-area">
+                <span class="upload-icon">📄</span>
+                <strong>Clique para selecionar a Planilha Excel</strong>
+                <p style="font-size: 12px; color: #999; margin-top: 5px;">Formatos aceitos: .xlsx, .csv</p>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 15px;">
+                <button class="btn" style="background: #eee;">Limpar</button>
+                <button class="btn btn-primary">Processar & Publicar Dados</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Última Atualização</th>
+                        <th>Arquivo</th>
+                        <th>Registros</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>12/03/2026 02:40</td>
+                        <td>base_proep_final.xlsx</td>
+                        <td>124 APAEs</td>
+                        <td><span style="color: var(--success)">✓ Publicado</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="log-box">
+            <h4>Terminal de Processamento (Claw Engine)</h4>
+            <div>> Lendo planilha: base_proep_final.xlsx...</div>
+            <div>> Validando coordenadas geográficas... [OK]</div>
+            <div>> Convertendo para data_proep.json... [OK]</div>
+            <div>> Fazendo push para repositório GitHub... [Pendente]</div>
+        </div>
+    </main>
+
+</body>
+</html>

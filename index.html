@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel PROEP - FCEE</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --gov-red: #ED1C24;
+            --gov-black: #231F20;
+            --gov-green-light: #A1C84D;
+            --gov-green-dark: #5FB157;
+            --gov-yellow: #FCEE21;
+            --gov-gray: #f4f7f6;
+            --gov-white: #ffffff;
+            --gov-border: #e1e4e8;
+        }
+        body { 
+            margin: 0; 
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            background: var(--gov-gray); 
+            overflow: hidden; 
+            color: var(--gov-black);
+        }
+        
+        header { 
+            background: var(--gov-white); 
+            color: var(--gov-black); 
+            padding: 0.75rem 2rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            border-bottom: 4px solid var(--gov-red); 
+            z-index: 1001;
+        }
+        .header-logo { height: 55px; }
+        .header-title { text-align: right; }
+        header h1 { margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--gov-black); letter-spacing: -0.02em; }
+        header p { margin: 0; font-size: 0.85rem; color: var(--gov-red); font-weight: 700; text-transform: uppercase; }
+
+        #main-container { display: flex; flex: 1; overflow: hidden; }
+        
+        #sidebar { 
+            width: 400px; 
+            background: var(--gov-white); 
+            padding: 1.25rem; 
+            overflow-y: auto; 
+            box-shadow: 1px 0 10px rgba(0,0,0,0.05); 
+            display: flex; 
+            flex-direction: column; 
+            gap: 1.25rem; 
+            border-right: 1px solid var(--gov-border); 
+            z-index: 1002;
+        }
+
+        #map-container { flex: 1; position: relative; background: #e5e5e5; }
+        #map { height: 100%; width: 100%; }
+
+        .card { 
+            background: var(--gov-white); 
+            border-radius: 8px; 
+            padding: 1.25rem; 
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+            border: 1px solid var(--gov-border);
+            border-top: 4px solid var(--gov-black);
+        }
+        .card-fixed { border-top-color: var(--gov-red); }
+        .card-charts { border-top-color: var(--gov-green-dark); }
+        
+        h2 { 
+            margin: 0 0 1rem 0; 
+            font-size: 0.9rem; 
+            text-transform: uppercase; 
+            color: var(--gov-black); 
+            font-weight: 700; 
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stat-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-bottom: 12px; 
+        }
+        .stat-box { 
+            text-align: center; 
+            padding: 1rem; 
+            background: #f8fafc; 
+            border: 1px solid var(--gov-border); 
+            border-radius: 6px; 
+        }
+        .stat-val { display: block; font-size: 1.75rem; font-weight: 800; color: var(--gov-red); line-height: 1; margin-bottom: 4px; }
+        .stat-lab { font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.025em; }
+
+        .edu-container {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--gov-border);
+        }
+        .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .edu-card { background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid var(--gov-border); }
+        .edu-card-title { font-size: 0.7rem; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; }
+        .edu-item { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 4px; color: #475569; }
+        .edu-item strong { color: var(--gov-black); }
+
+        .chart-box { height: 160px; margin-bottom: 2rem; position: relative; }
+        .chart-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .chart-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gov-red); }
+        .chart-title-text { font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .info-window { 
+            position: absolute; top: 20px; right: 20px; width: 340px; 
+            background: var(--gov-white); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            border-radius: 12px; z-index: 2000;
+            display: none; border: 1px solid var(--gov-border);
+            animation: slideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .info-header { background: var(--gov-black); color: var(--gov-white); padding: 1rem; position: relative; }
+        .info-header h3 { margin: 0; font-size: 1.1rem; font-weight: 700; }
+        .info-body { padding: 1.25rem; }
+        .close-info { position: absolute; top: 0.75rem; right: 1rem; cursor: pointer; font-size: 1.5rem; opacity: 0.7; transition: opacity 0.2s; }
+        .close-info:hover { opacity: 1; }
+        
+        .prog-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; }
+        .badge-ini { background: var(--gov-yellow); color: #000; }
+        .badge-pre { background: var(--gov-green-dark); color: #fff; }
+        
+        .inst-list { list-style: none; padding: 0; margin: 0; }
+        .inst-item { 
+            padding: 10px 12px; 
+            border-bottom: 1px solid #f1f5f9; 
+            cursor: pointer; 
+            font-size: 0.85rem; 
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+        .inst-item:hover { background: #f8fafc; color: var(--gov-red); font-weight: 600; padding-left: 16px; }
+
+        #legend { 
+            position: absolute; bottom: 30px; left: 30px; 
+            background: var(--gov-white); 
+            padding: 12px 16px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            z-index: 1000; 
+            font-size: 0.8rem;
+            border: 1px solid var(--gov-border);
+        }
+        .marker-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--gov-red); margin-right: 8px; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--gov-red); }
+
+        /* Estilo para o Botão e Modal de Resumo */
+        #btn-resumo {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: var(--gov-white);
+            color: var(--gov-black);
+            border: 2px solid var(--gov-red);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        #btn-resumo:hover {
+            background: var(--gov-red);
+            color: white;
+            box-shadow: 0 6px 15px rgba(237, 28, 36, 0.3);
+        }
+        #modal-resumo {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            backdrop-filter: blur(3px);
+        }
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 5vh auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: modalFade 0.3s ease;
+        }
+        @keyframes modalFade { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-header { background: var(--gov-red); color: white; padding: 20px; position: relative; }
+        .modal-body { padding: 30px; font-size: 0.95rem; line-height: 1.6; color: #444; max-height: 70vh; overflow-y: auto; }
+        .modal-body h4 { color: var(--gov-red); margin-top: 0; border-bottom: 2px solid var(--gov-gray); padding-bottom: 5px; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: white; opacity: 0.8; }
+        .close-modal:hover { opacity: 1; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="logo_fcee.png" alt="Logo FCEE" class="header-logo">
+    <div class="header-title">
+        <h1>PROEP - Programa de Educação Profissional</h1>
+        <p>GOVERNO DE SANTA CATARINA</p>
+    </div>
+</header>
+
+<div id="main-container">
+    <div id="sidebar">
+        <!-- TOTAIS FIXOS -->
+        <div class="card card-fixed">
+            <h2>Consolidado Geral CENET</h2>
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <span class="stat-val">91</span>
+                    <span class="stat-lab">Instituições</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val">295</span>
+                    <span class="stat-lab">Municípios</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val" id="total-aprendizes-geral">1.840</span>
+                    <span class="stat-lab">Aprendizes</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val" id="total-turmas-geral">154</span>
+                    <span class="stat-lab">Turmas</span>
+                </div>
+            </div>
+            
+            <div class="edu-container">
+                <h2>Escolaridade por Programa</h2>
+                <div class="edu-grid">
+                    <div class="edu-card">
+                        <div class="edu-card-title" style="color: var(--gov-red);">Iniciação</div>
+                        <div class="edu-item">Fund: <strong>410</strong></div>
+                        <div class="edu-item">Médio Curs: <strong>120</strong></div>
+                        <div class="edu-item">Médio Comp: <strong>90</strong></div>
+                    </div>
+                    <div class="edu-card">
+                        <div class="edu-card-title" style="color: var(--gov-green-dark);">Pré-Qualif.</div>
+                        <div class="edu-item">Fund: <strong>690</strong></div>
+                        <div class="edu-item">Médio Curs: <strong>320</strong></div>
+                        <div class="edu-item">Médio Comp: <strong>210</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRÁFICOS PERFIL -->
+        <div class="card card-charts">
+            <h2>Perfil dos Aprendizes</h2>
+            
+            <div class="chart-box">
+                <div class="chart-header">
+                    <div class="chart-dot"></div>
+                    <div class="chart-title-text">Gênero</div>
+                </div>
+                <canvas id="sexChart"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-header">
+                    <div class="chart-dot"></div>
+                    <div class="chart-title-text">Faixa Etária</div>
+                </div>
+                <canvas id="ageChart"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-header">
+                    <div class="chart-dot"></div>
+                    <div class="chart-title-text">Deficiência</div>
+                </div>
+                <canvas id="defChart"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-header">
+                    <div class="chart-dot"></div>
+                    <div class="chart-title-text">Escolaridade</div>
+                </div>
+                <canvas id="escChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="map-container">
+        <div id="map"></div>
+        
+        <!-- JANELA DE DETALHES -->
+        <div id="info-window" class="info-window">
+            <div class="info-header">
+                <span class="close-info" onclick="closeInfo()">&times;</span>
+                <h3 id="info-city-name">Município</h3>
+            </div>
+            <div class="info-body">
+                <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px; font-weight: 500;">Selecione uma instituição para ver detalhes:</p>
+                <ul id="inst-list" class="inst-list"></ul>
+                
+                <div id="inst-detail" style="display:none; margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
+                    <h4 id="detail-name" style="margin: 0 0 12px 0; color: var(--gov-red); font-size: 1rem; font-weight: 700;">Nome Instituição</h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <span class="prog-badge badge-ini">Iniciação</span>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                <span>Turmas: <strong id="val-ini-t">0</strong></span>
+                                <span>Aprendizes: <strong id="val-ini-a">0</strong></span>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <span class="prog-badge badge-pre">Pré-Qualificação</span>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                <span>Turmas: <strong id="val-pre-t">0</strong></span>
+                                <span>Aprendizes: <strong id="val-pre-a">0</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="legend">
+            <div style="font-weight: 700; margin-bottom: 6px; color: var(--gov-black);">Instituições CENET</div>
+            <div style="display: flex; align-items: center; gap: 4px; color: #475569;">
+                <span class="marker-dot"></span> 
+                <span>Município Atendido</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Configurações Globais Chart.js
+    Chart.defaults.font.size = 11;
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.color = '#475569';
+
+    const proepData = {
+        "Florianópolis": [
+            { name: "APAE de Florianópolis", ini_t: 2, ini_a: 19, pre_t: 4, pre_a: 50 },
+            { name: "ACIC", ini_t: 1, ini_a: 12, pre_t: 1, pre_a: 15 },
+            { name: "Ama Florianópolis", ini_t: 1, ini_a: 10, pre_t: 1, pre_a: 10 }
+        ],
+        "São José": [
+            { name: "APAE de São José", ini_t: 3, ini_a: 25, pre_t: 5, pre_a: 60 }
+        ],
+        "Palhoça": [
+            { name: "APAE de Palhoça", ini_t: 1, ini_a: 10, pre_t: 2, pre_a: 22 }
+        ]
+    };
+
+    const map = L.map('map', { zoomControl: false }).setView([-27.5945, -48.5477], 11);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+    const cityCoords = {
+        "Florianópolis": [-27.5945, -48.5477],
+        "São José": [-27.6136, -48.6366],
+        "Palhoça": [-27.6430, -48.6650]
+    };
+
+    Object.keys(cityCoords).forEach(city => {
+        const marker = L.circleMarker(cityCoords[city], {
+            radius: 12, fillColor: '#ED1C24', color: '#fff', weight: 3, opacity: 1, fillOpacity: 0.95
+        }).addTo(map);
+        marker.on('click', () => showCityDetails(city));
+    });
+
+    function showCityDetails(city) {
+        const win = document.getElementById('info-window');
+        const list = document.getElementById('inst-list');
+        const cityName = document.getElementById('info-city-name');
+        win.style.display = 'block';
+        document.getElementById('inst-detail').style.display = 'none';
+        cityName.innerText = city;
+        list.innerHTML = '';
+        proepData[city].forEach(inst => {
+            const li = document.createElement('li');
+            li.className = 'inst-item';
+            li.innerText = inst.name;
+            li.onclick = () => showInstDetails(inst);
+            list.appendChild(li);
+        });
+    }
+
+    function showInstDetails(inst) {
+        document.getElementById('inst-detail').style.display = 'block';
+        document.getElementById('detail-name').innerText = inst.name;
+        document.getElementById('val-ini-t').innerText = inst.ini_t;
+        document.getElementById('val-ini-a').innerText = inst.ini_a;
+        document.getElementById('val-pre-t').innerText = inst.pre_t;
+        document.getElementById('val-pre-a').innerText = inst.pre_a;
+    }
+
+    function closeInfo() { document.getElementById('info-window').style.display = 'none'; }
+
+    // Gráficos Modernos
+    function createSexChart(id, labels, data) {
+        return new Chart(document.getElementById(id), {
+            type: 'doughnut',
+            data: { labels, datasets: [{ data, backgroundColor: ['#231F20', '#ED1C24'], borderWidth: 2, borderColor: '#ffffff' }] },
+            options: { maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right', labels: { boxWidth: 10, padding: 10, font: { size: 10, weight: '600' } } } } }
+        });
+    }
+
+    function createAgeChart(id, labels, data) {
+        return new Chart(document.getElementById(id), {
+            type: 'bar',
+            data: { labels, datasets: [{ data, backgroundColor: '#ED1C24', borderRadius: 4, barThickness: 15 }] },
+            options: { indexAxis: 'y', maintainAspectRatio: false, scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 10, weight: '600' } } } }, plugins: { legend: { display: false } } }
+        });
+    }
+
+    function createDefChart(id, labels, data) {
+        return new Chart(document.getElementById(id), {
+            type: 'doughnut',
+            data: { labels, datasets: [{ data, backgroundColor: ['#ED1C24', '#5FB157', '#A1C84D'], borderWidth: 2, borderColor: '#ffffff' }] },
+            options: { maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 10, padding: 8, font: { size: 10 } } } } }
+        });
+    }
+
+    function createEscChart(id, labels, data) {
+        return new Chart(document.getElementById(id), {
+            type: 'bar',
+            data: { labels, datasets: [{ data, backgroundColor: ['#231F20', '#5FB157', '#ED1C24'], borderRadius: 4 }] },
+            options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, border: { display: false } }, x: { grid: { display: false }, ticks: { font: { size: 10, weight: '600' } } } }, plugins: { legend: { display: false } } }
+        });
+    }
+
+    createSexChart('sexChart', ['Masculino', 'Feminino'], [135, 108]);
+    createAgeChart('ageChart', ['14-18', '19-24', '25-40', '40+'], [450, 820, 410, 160]);
+    createDefChart('defChart', ['DI', 'TEA', 'Outros'], [168, 59, 16]);
+    createEscChart('escChart', ['Inc.', 'Fund.', 'Médio'], [38, 142, 63]);
+</script>
+
+</body>
+</html>

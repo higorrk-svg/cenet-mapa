@@ -1,0 +1,7 @@
+municipio,instituicao,ini_t,ini_a,pre_t,pre_a,sexo_m,sexo_f,idade_14_18,idade_19_24,idade_25_40,idade_40_mais,def_di,def_tea,def_outros,esc_inc,esc_fund,esc_medio,ini_f,ini_c,ini_m,pre_f,pre_c,pre_m
+SÃO MIGUEL DO OESTE,APAE SÃO MIGUEL DO OESTE,1,7,0,0,4,3,2,3,2,0,5,1,1,0,5,2,4,2,1,0,0,0
+CHAPECÓ,AMA CHAPECÓ,2,16,0,0,10,6,5,8,3,0,10,6,0,2,10,4,8,5,3,0,0,0
+XANXERÊ,APAE XANXERÊ,1,11,0,0,7,4,3,5,3,0,8,2,1,1,7,3,6,3,2,0,0,0
+FLORIANÓPOLIS,APAE DE FLORIANÓPOLIS,2,19,4,50,40,29,15,30,20,4,50,15,4,10,40,19,10,5,4,30,15,5
+SÃO JOSÉ,APAE DE SAO JOSÉ,5,64,0,0,34,30,20,25,15,4,45,15,4,10,40,14,40,15,9,0,0,0
+ITAJAÍ,APAE DE ITAJAÍ,2,14,3,62,40,36,20,30,20,6,50,20,6,15,40,21,10,3,1,40,15,7
