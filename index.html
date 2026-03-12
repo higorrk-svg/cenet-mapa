@@ -6,6 +6,7 @@
     <title>Painel PROEP - FCEE</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -380,12 +381,219 @@
         "Chapecó": [-27.1000, -52.6150],
         "São Miguel do Oeste": [-26.7239, -53.5186],
         "Itajaí": [-26.9078, -48.6619],
-        "Grão-Pará": [-28.1833, -49.2167]
+        "Grão-Pará": [-28.1833, -49.2167],
+        "SÃO MIGUEL DO OESTE": [-26.7239, -53.5186],
+        "DESCANSO": [-26.8272, -53.5067],
+        "GUARACIABA": [-26.5986, -53.5175],
+        "MARAVILHA": [-26.7600, -53.1700],
+        "MODELO": [-26.7800, -53.0500],
+        "ROMELÂNDIA": [-26.6800, -53.3200],
+        "IRACEMINHA": [-26.8300, -53.3000],
+        "QUILOMBO": [-26.7300, -52.7300],
+        "PINHALZINHO": [-26.8500, -52.9900],
+        "CURITIBANOS": [-27.2800, -50.5800],
+        "SANTA CECÍLIA": [-26.9600, -50.4200],
+        "LEBON RÉGIS": [-26.9300, -50.6900],
+        "PONTE ALTA DO NORTE": [-27.1600, -50.5900],
+        "SÃO CRISTÓVÃO DO SUL": [-27.2600, -50.4400],
+        "XANXERE": [-26.8747, -52.4036],
+        "XANXERÊ": [-26.8747, -52.4036],
+        "ABELARDO LUZ": [-26.5600, -52.3300],
+        "SÃO DOMINGOS": [-26.5600, -52.5300],
+        "PONTE SERRADA": [-26.8700, -52.0100],
+        "FAXINAL DOS GUEDES": [-26.8500, -52.2600],
+        "ENTRE RIOS": [-26.7200, -52.5600],
+        "SÃO LOURENÇO DO OESTE": [-26.3600, -52.8500],
+        "CAMPO ERÊ": [-26.3900, -53.0800],
+        "SÃO BERNARDINO": [-26.4700, -52.9700],
+        "GALVÃO": [-26.4500, -52.6800],
+        "CORONEL MARTINS": [-26.6000, -52.6800],
+        "JOAÇABA": [-27.1700, -51.5000],
+        "HERVAL D'OESTE": [-27.1800, -51.4900],
+        "TREZE TÍLIAS": [-27.0000, -51.4100],
+        "ÁGUA DOCE": [-26.9900, -51.5500],
+        "ERVAL VELHO": [-27.2700, -51.4400],
+        "LACERDÓPOLIS": [-27.2600, -51.5500],
+        "CAMPOS NOVOS": [-27.4000, -51.2200],
+        "TANGARÁ": [-27.1000, -51.1500],
+        "VARGEM": [-27.4800, -50.9800],
+        "ABDON BATISTA": [-27.6100, -51.0200],
+        "BRUNÓPOLIS": [-27.3100, -50.9100],
+        "CONCÓRDIA": [-27.2300, -52.0300],
+        "SEARA": [-27.1500, -52.3100],
+        "IPUMIRIM": [-27.0800, -52.1300],
+        "LINDOIA DO SUL": [-27.1900, -52.0900],
+        "ITÁ": [-27.2800, -52.3200],
+        "ARABUTÃ": [-27.1500, -52.1400],
+        "IRANI": [-26.9500, -51.8500],
+        "CAPINZAL": [-27.3400, -51.6100],
+        "PIRATUBA": [-27.4200, -51.7800],
+        "OURO": [-27.3300, -51.6200],
+        "IPIRA": [-27.4000, -51.7700],
+        "VIDEIRA": [-27.0000, -51.1500],
+        "FRAIBURGO": [-27.0200, -50.9200],
+        "PINHEIRO PRETO": [-27.0500, -51.2200],
+        "ARROIO TRINTA": [-26.9200, -51.2100],
+        "IOMERÊ": [-27.0000, -51.2400],
+        "CAÇADOR": [-26.7700, -51.0100],
+        "Timbó Grande": [-26.6100, -50.6700],
+        "MACIEIRA": [-26.8500, -51.3800],
+        "CALMON": [-26.6000, -51.0900],
+        "MATOS COSTA": [-26.4700, -51.1500],
+        "PORTO UNIÃO": [-26.2300, -51.0800],
+        "IRINEÓPOLIS": [-26.2300, -50.8000],
+        "CANOINHAS": [-26.1700, -50.4400],
+        "TRÊS BARRAS": [-26.1100, -50.3200],
+        "BELA VISTA DO TOLDO": [-26.2700, -50.4600],
+        "MAFRA": [-26.1100, -49.8000],
+        "ITAIÓPOLIS": [-26.3300, -49.9000],
+        "PAPANDUVA": [-26.3600, -50.1400],
+        "MONTE CASTELO": [-26.4600, -50.2300],
+        "SANTA TEREZINHA": [-26.7800, -50.0100],
+        "SÃO BENTO DO SUL": [-26.2500, -49.3800],
+        "RIO NEGRINHO": [-26.2500, -49.5200],
+        "CAMPO ALEGRE": [-26.1900, -49.2600],
+        "JOINVILLE": [-26.3000, -48.8400],
+        "SÃO FRANCISCO DO SUL": [-26.2400, -48.6300],
+        "ARAQUARI": [-26.3700, -48.7200],
+        "GARUVA": [-26.0300, -48.8500],
+        "ITAPOÁ": [-26.1100, -48.6100],
+        "BALNEÁRIO BARRA DO SUL": [-26.4500, -48.6100],
+        "JARAGUÁ DO SUL": [-26.4800, -49.0800],
+        "GUARAMIRIM": [-26.4700, -49.0000],
+        "SCHROEDER": [-26.4100, -49.0700],
+        "CORUPÁ": [-26.4400, -49.2400],
+        "MASSARANDUBA": [-26.6100, -49.0000],
+        "ITAJAÍ": [-26.9078, -48.6619],
+        "BALNEÁRIO CAMBORIÚ": [-26.9900, -48.6300],
+        "CAMBORIÚ": [-27.0200, -48.6500],
+        "ITAPEMA": [-27.0900, -48.6100],
+        "PORTO BELO": [-27.1500, -48.5500],
+        "BOMBINHAS": [-27.1300, -48.4800],
+        "NAVEGANTES": [-26.8900, -48.6500],
+        "PENHA": [-26.7600, -48.6400],
+        "BALNEÁRIO PIÇARRAS": [-26.7600, -48.6700],
+        "LUIZ ALVES": [-26.7200, -48.9300],
+        "BLUMENAU": [-26.9100, -49.0600],
+        "GASPAR": [-26.9300, -48.9500],
+        "INDAIAL": [-26.8900, -49.2300],
+        "TIMBÓ": [-26.8200, -49.2700],
+        "POMERODE": [-26.7400, -49.1700],
+        "BENEDITO NOVO": [-26.7800, -49.3600],
+        "RIO DOS CEDROS": [-26.7300, -49.2700],
+        "ILHOTA": [-26.8900, -48.8200],
+        "BRUSQUE": [-27.0900, -48.9100],
+        "GUABIRUBA": [-27.0800, -48.9800],
+        "BOTUVERÁ": [-27.2000, -49.1400],
+        "SÃO JOÃO BATISTA": [-27.2700, -48.8400],
+        "CANELINHA": [-27.2600, -48.7600],
+        "TIJUCAS": [-27.2400, -48.6300],
+        "NOVA TRENTO": [-27.2800, -48.9300],
+        "RIO DO SUL": [-27.2100, -49.6400],
+        "IBIRAMA": [-27.0500, -49.5200],
+        "PRESIDENTE GETÚLIO": [-27.0500, -49.6200],
+        "LONTRAS": [-27.1600, -49.5300],
+        "AURORA": [-27.2600, -49.6300],
+        "LAURENTINO": [-27.2200, -49.7300],
+        "RIOS DO OESTE": [-27.1900, -49.8000],
+        "DONA EMMA": [-27.0000, -49.7200],
+        "WITMARSUM": [-26.9200, -49.7900],
+        "PRESIDENTE NEREU": [-27.2700, -49.3800],
+        "ITUPORANGA": [-27.4000, -49.6000],
+        "PETROLÂNDIA": [-27.5300, -49.7000],
+        "VIDAL RAMOS": [-27.3900, -49.3600],
+        "IMBUIA": [-27.4800, -49.4200],
+        "ALFREDO WAGNER": [-27.7000, -49.2000],
+        "IBICUÍ": [-27.4000, -50.0000],
+        "TAIÓ": [-27.1100, -49.9900],
+        "POUSO REDONDO": [-27.2500, -49.9700],
+        "SALETE": [-26.9800, -50.0000],
+        "RIO DO CAMPO": [-26.9400, -50.1300],
+        "MIRIM DOCE": [-27.1900, -50.0800],
+        "SANTA TEREZINHA": [-26.7800, -50.0100],
+        "LAGES": [-27.8100, -50.3200],
+        "OTACÍLIO COSTA": [-27.4800, -50.1100],
+        "CORREIA PINTO": [-27.5800, -50.3600],
+        "PONTE ALTA": [-27.4800, -50.3700],
+        "BOCAINA DO SUL": [-27.7400, -50.1100],
+        "SÃO JOSÉ DO CERRITO": [-27.6600, -50.6400],
+        "PALMEIRA": [-27.5800, -50.1500],
+        "SÃO JOAQUIM": [-28.2700, -49.9300],
+        "URUPEMA": [-27.9500, -49.8700],
+        "URUBICI": [-28.0100, -49.5900],
+        "BOM RETIRO": [-27.7900, -49.4900],
+        "BOM JARDIM DA SERRA": [-28.3300, -49.6200],
+        "RIO FORTUNA": [-28.1300, -49.1000],
+        "GRÃO PARÁ": [-28.1833, -49.2167],
+        "GRÃO-PARÁ": [-28.1833, -49.2167],
+        "BRAÇO DO NORTE": [-28.2700, -49.1700],
+        "SÃO LUDGERO": [-28.3200, -49.1700],
+        "SANTA ROSA DE LIMA": [-28.0300, -49.1300],
+        "GRAVATAL": [-28.3200, -49.0300],
+        "ARMAZÉM": [-28.2500, -49.0100],
+        "TUBARÃO": [-28.4600, -48.9900],
+        "CAPIVARI DE BAIXO": [-28.4400, -48.9600],
+        "JAGUARUNA": [-28.6100, -49.0200],
+        "SANGÃO": [-28.6300, -49.1300],
+        "LAGUNA": [-28.4800, -48.7800],
+        "IMBITUBA": [-28.2400, -48.6600],
+        "GAROPABA": [-28.0200, -48.6100],
+        "PAULO LOPES": [-27.9600, -48.6800],
+        "IMARUÍ": [-28.3400, -48.8100],
+        "CRICIÚMA": [-28.6700, -49.3700],
+        "IÇARA": [-28.7100, -49.3000],
+        "COCAL DO SUL": [-28.6000, -49.3200],
+        "MORRO DA FUMAÇA": [-28.6500, -49.2100],
+        "FORQUILHINHA": [-28.7400, -49.4700],
+        "NOVA VENEZA": [-28.6300, -49.4900],
+        "SIDERÓPOLIS": [-28.5900, -49.4200],
+        "TREVISO": [-28.5100, -49.4500],
+        "URUSSANGA": [-28.5200, -49.3200],
+        "ORLEANS": [-28.3500, -49.2900],
+        "LAURO MÜLLER": [-28.3900, -49.3900],
+        "ARARANGUÁ": [-28.9300, -49.4800],
+        "SOMBRIO": [-29.1100, -49.6100],
+        "TURVO": [-28.9200, -49.6700],
+        "MELEIRO": [-28.8200, -49.6300],
+        "BALNEÁRIO GAIVOTA": [-29.1500, -49.5700],
+        "BALNEÁRIO ARROIO DO SILVA": [-28.9800, -49.4100],
+        "MARACAJÁ": [-28.8400, -49.4500],
+        "ERMO": [-28.9800, -49.6400],
+        "PRAIA GRANDE": [-29.1900, -49.9400],
+        "SANTA ROSA DO SUL": [-29.1300, -49.7100],
+        "SÃO JOÃO DO SUL": [-29.2200, -49.8000],
+        "PASSO DE TORRES": [-29.3100, -49.7200],
+        "JACINTO MACHADO": [-28.9900, -49.7600],
+        "FLORIANÓPOLIS": [-27.5945, -48.5477],
+        "SÃO JOSÉ": [-27.6136, -48.6366],
+        "PALHOÇA": [-27.6430, -48.6650],
+        "BIGUAÇU": [-27.4900, -48.6500],
+        "SANTO AMARO DA IMPERATRIZ": [-27.6800, -48.7700],
+        "ÁGUAS MORNAS": [-27.7000, -48.8200],
+        "ANTÔNIO CARLOS": [-27.5100, -48.7600],
+        "GOVERNADOR CELSO RAMOS": [-27.3100, -48.5500],
+        "SÃO PEDRO DE ALCÂNTARA": [-27.5600, -48.8000],
+        "ALFREDO WAGNER": [-27.7000, -49.2000],
+        "RANCHO QUEIMADO": [-27.6700, -49.0100],
+        "ANGELINA": [-27.5600, -48.9800],
+        "SÃO BONIFÁCIO": [-27.9000, -48.9200],
+        "ITAPIRANGA": [-27.1600, -53.7100],
+        "SÃO JOÃO DO OESTE": [-27.0900, -53.5900],
+        "IPORÃ DO OESTE": [-26.9800, -53.5300],
+        "MONDAÍ": [-27.1000, -53.4000],
+        "SÃO CARLOS": [-27.0800, -53.0000],
+        "PALMITOS": [-27.0600, -53.1600],
+        "CAIBI": [-27.0700, -53.2400],
+        "CUNHA PORÃ": [-26.8900, -53.1600],
+        "RIQUEZA": [-27.0600, -53.3200]
     };
 
     const map = L.map('map', { zoomControl: false }).setView([-27.2423, -50.2189], 7);
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+    // Camada de Calor (Heatmap)
+    let heatLayer = null;
 
     async function loadData() {
         const { data, error } = await _supabase.from('instituicoes_proep').select('*');
@@ -429,20 +637,55 @@
         document.getElementById('total-aprendizes-geral').innerText = totais.apr.toLocaleString();
         document.getElementById('total-turmas-geral').innerText = totais.tur;
         
+        // Atualizar contador de municípios ativos (somente os que têm o programa)
+        const munCountElement = document.querySelector('.stat-grid .stat-box:nth-child(2) .stat-val');
+        if (munCountElement) {
+            munCountElement.innerText = totais.mun.size;
+        }
+        
         // Atualizar Gráficos
         updateCharts(totais);
     }
 
     function updateMap() {
-        // Limpar marcadores existentes se houver (opcional)
-        Object.keys(proepData).forEach(city => {
-            if (cityCoords[city]) {
-                const marker = L.circleMarker(cityCoords[city], {
-                    radius: 12, fillColor: '#ED1C24', color: '#fff', weight: 3, opacity: 1, fillOpacity: 0.95
-                }).addTo(map);
-                marker.on('click', () => showCityDetails(city));
+        // Limpar marcadores e calor existentes
+        map.eachLayer((layer) => {
+            if (layer instanceof L.CircleMarker || (layer.options && layer.options.pane === 'overlayPane' && !layer._url)) {
+                // Leaflet Heat utiliza o overlayPane mas não tem URL como tileLayers
+                if (layer !== heatLayer) return; // Segurança básica
             }
         });
+        
+        if (heatLayer) map.removeLayer(heatLayer);
+
+        let heatPoints = [];
+
+        Object.keys(proepData).forEach(city => {
+            const cityUpper = city.toUpperCase().trim();
+            if (cityCoords[cityUpper]) {
+                const coords = cityCoords[cityUpper];
+                
+                // Marcador Individual
+                const marker = L.circleMarker(coords, {
+                    radius: 10, fillColor: '#ED1C24', color: '#fff', weight: 2, opacity: 1, fillOpacity: 0.9
+                }).addTo(map);
+                marker.on('click', () => showCityDetails(city));
+
+                // Adicionar ao Calor (baseado no nº de aprendizes)
+                const totalApr = proepData[city].reduce((acc, curr) => acc + (curr.ini_a + curr.pre_a), 0);
+                heatPoints.push([coords[0], coords[1], Math.min(totalApr / 50, 1)]); 
+            }
+        });
+
+        // Adicionar nova camada de calor se houver pontos
+        if (typeof L.heatLayer === 'function' && heatPoints.length > 0) {
+            heatLayer = L.heatLayer(heatPoints, {
+                radius: 25,
+                blur: 15,
+                maxZoom: 10,
+                gradient: {0.4: 'blue', 0.6: 'cyan', 0.7: 'lime', 0.8: 'yellow', 1: 'red'}
+            }).addTo(map);
+        }
     }
 
     function showCityDetails(city) {
