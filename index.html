@@ -220,56 +220,6 @@
             border-radius: 4px !important;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
         }
-
-        /* Estilo para o Botão e Modal de Resumo */
-        #btn-resumo {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background: var(--gov-white);
-            color: var(--gov-black);
-            border: 2px solid var(--gov-red);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        #btn-resumo:hover {
-            background: var(--gov-red);
-            color: white;
-            box-shadow: 0 6px 15px rgba(237, 28, 36, 0.3);
-        }
-        #modal-resumo {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 3000;
-            backdrop-filter: blur(3px);
-        }
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 600px;
-            margin: 5vh auto;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            animation: modalFade 0.3s ease;
-        }
-        @keyframes modalFade { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        .modal-header { background: var(--gov-red); color: white; padding: 20px; position: relative; }
-        .modal-body { padding: 30px; font-size: 0.95rem; line-height: 1.6; color: #444; max-height: 70vh; overflow-y: auto; }
-        .modal-body h4 { color: var(--gov-red); margin-top: 0; border-bottom: 2px solid var(--gov-gray); padding-bottom: 5px; }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: white; opacity: 0.8; }
-        .close-modal:hover { opacity: 1; }
     </style>
 </head>
 <body>
@@ -284,24 +234,23 @@
 
 <div id="main-container">
     <div id="sidebar">
-        <!-- TOTAIS FIXOS -->
         <div class="card card-fixed">
             <h2>Consolidado Geral CENET</h2>
             <div class="stat-grid">
                 <div class="stat-box">
-                    <span class="stat-val">91</span>
+                    <span class="stat-val">0</span>
                     <span class="stat-lab">Instituições</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-val">295</span>
+                    <span class="stat-val">0</span>
                     <span class="stat-lab">Municípios</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-val" id="total-aprendizes-geral">1.840</span>
+                    <span class="stat-val" id="total-aprendizes-geral">0</span>
                     <span class="stat-lab">Aprendizes</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-val" id="total-turmas-geral">154</span>
+                    <span class="stat-val" id="total-turmas-geral">0</span>
                     <span class="stat-lab">Turmas</span>
                 </div>
             </div>
@@ -325,10 +274,8 @@
             </div>
         </div>
 
-        <!-- GRÁFICOS PERFIL -->
         <div class="card card-charts">
             <h2>Perfil dos Aprendizes</h2>
-            
             <div class="chart-box">
                 <div class="chart-header">
                     <div class="chart-dot"></div>
@@ -336,7 +283,6 @@
                 </div>
                 <canvas id="sexChart"></canvas>
             </div>
-
             <div class="chart-box">
                 <div class="chart-header">
                     <div class="chart-dot"></div>
@@ -344,7 +290,6 @@
                 </div>
                 <canvas id="ageChart"></canvas>
             </div>
-
             <div class="chart-box">
                 <div class="chart-header">
                     <div class="chart-dot"></div>
@@ -352,7 +297,6 @@
                 </div>
                 <canvas id="defChart"></canvas>
             </div>
-
             <div class="chart-box">
                 <div class="chart-header">
                     <div class="chart-dot"></div>
@@ -365,14 +309,11 @@
 
     <div id="map-container">
         <div id="map"></div>
-
-        <!-- Busca Interativa -->
         <div class="search-container">
             <input type="text" id="map-search" class="search-input" placeholder="Buscar município ou instituição...">
             <div id="search-results" class="search-results"></div>
         </div>
         
-        <!-- JANELA DE DETALHES -->
         <div id="info-window" class="info-window">
             <div class="info-header">
                 <span class="close-info" onclick="closeInfo()">&times;</span>
@@ -381,10 +322,8 @@
             <div class="info-body">
                 <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px; font-weight: 500;">Selecione uma instituição para ver detalhes:</p>
                 <ul id="inst-list" class="inst-list"></ul>
-                
                 <div id="inst-detail" style="display:none; margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
                     <h4 id="detail-name" style="margin: 0 0 12px 0; color: var(--gov-red); font-size: 1rem; font-weight: 700;">Nome Instituição</h4>
-                    
                     <div style="display: flex; flex-direction: column; gap: 10px;">
                         <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <span class="prog-badge badge-ini">Iniciação</span>
@@ -393,7 +332,6 @@
                                 <span>Aprendizes: <strong id="val-ini-a">0</strong></span>
                             </div>
                         </div>
-                        
                         <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <span class="prog-badge badge-pre">Pré-Qualificação</span>
                             <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
@@ -418,252 +356,99 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // Configurações Globais Chart.js
     Chart.defaults.font.size = 11;
     Chart.defaults.font.family = "'Inter', sans-serif";
     Chart.defaults.color = '#475569';
 
-    // Configuração Supabase
     const SUPABASE_URL = 'https://blzzetfruubfadmllgws.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsenpldGZydXViZmFkbWxsZ3dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzgxMjgsImV4cCI6MjA4ODkxNDEyOH0.ZBIkHOkm96G3_9mxin6CxvoJ2Hk8KdfzpGUEzEKR704';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let proepData = {};
     let charts = {};
+    let heatLayer = null;
 
     const cityCoords = {
-        "Florianópolis": [-27.5945, -48.5477],
-        "São José": [-27.6136, -48.6366],
-        "Palhoça": [-27.6430, -48.6650],
-        "Xanxerê": [-26.8747, -52.4036],
-        "Chapecó": [-27.1000, -52.6150],
-        "São Miguel do Oeste": [-26.7239, -53.5186],
-        "Itajaí": [-26.9078, -48.6619],
-        "Grão-Pará": [-28.1833, -49.2167],
-        "SÃO MIGUEL DO OESTE": [-26.7239, -53.5186],
-        "DESCANSO": [-26.8272, -53.5067],
-        "GUARACIABA": [-26.5986, -53.5175],
-        "MARAVILHA": [-26.7600, -53.1700],
-        "MODELO": [-26.7800, -53.0500],
-        "ROMELÂNDIA": [-26.6800, -53.3200],
-        "IRACEMINHA": [-26.8300, -53.3000],
-        "QUILOMBO": [-26.7300, -52.7300],
-        "PINHALZINHO": [-26.8500, -52.9900],
-        "CURITIBANOS": [-27.2800, -50.5800],
-        "SANTA CECÍLIA": [-26.9600, -50.4200],
-        "LEBON RÉGIS": [-26.9300, -50.6900],
-        "PONTE ALTA DO NORTE": [-27.1600, -50.5900],
-        "SÃO CRISTÓVÃO DO SUL": [-27.2600, -50.4400],
-        "XANXERE": [-26.8747, -52.4036],
-        "XANXERÊ": [-26.8747, -52.4036],
-        "ABELARDO LUZ": [-26.5600, -52.3300],
-        "SÃO DOMINGOS": [-26.5600, -52.5300],
-        "PONTE SERRADA": [-26.8700, -52.0100],
-        "FAXINAL DOS GUEDES": [-26.8500, -52.2600],
-        "ENTRE RIOS": [-26.7200, -52.5600],
-        "SÃO LOURENÇO DO OESTE": [-26.3600, -52.8500],
-        "CAMPO ERÊ": [-26.3900, -53.0800],
-        "SÃO BERNARDINO": [-26.4700, -52.9700],
-        "GALVÃO": [-26.4500, -52.6800],
-        "CORONEL MARTINS": [-26.6000, -52.6800],
-        "JOAÇABA": [-27.1700, -51.5000],
-        "HERVAL D'OESTE": [-27.1800, -51.4900],
-        "TREZE TÍLIAS": [-27.0000, -51.4100],
-        "ÁGUA DOCE": [-26.9900, -51.5500],
-        "ERVAL VELHO": [-27.2700, -51.4400],
-        "LACERDÓPOLIS": [-27.2600, -51.5500],
-        "CAMPOS NOVOS": [-27.4000, -51.2200],
-        "TANGARÁ": [-27.1000, -51.1500],
-        "VARGEM": [-27.4800, -50.9800],
-        "ABDON BATISTA": [-27.6100, -51.0200],
-        "BRUNÓPOLIS": [-27.3100, -50.9100],
-        "CONCÓRDIA": [-27.2300, -52.0300],
-        "SEARA": [-27.1500, -52.3100],
-        "IPUMIRIM": [-27.0800, -52.1300],
-        "LINDOIA DO SUL": [-27.1900, -52.0900],
-        "ITÁ": [-27.2800, -52.3200],
-        "ARABUTÃ": [-27.1500, -52.1400],
-        "IRANI": [-26.9500, -51.8500],
-        "CAPINZAL": [-27.3400, -51.6100],
-        "PIRATUBA": [-27.4200, -51.7800],
-        "OURO": [-27.3300, -51.6200],
-        "IPIRA": [-27.4000, -51.7700],
-        "VIDEIRA": [-27.0000, -51.1500],
-        "FRAIBURGO": [-27.0200, -50.9200],
-        "PINHEIRO PRETO": [-27.0500, -51.2200],
-        "ARROIO TRINTA": [-26.9200, -51.2100],
-        "IOMERÊ": [-27.0000, -51.2400],
-        "CAÇADOR": [-26.7700, -51.0100],
-        "Timbó Grande": [-26.6100, -50.6700],
-        "MACIEIRA": [-26.8500, -51.3800],
-        "CALMON": [-26.6000, -51.0900],
-        "MATOS COSTA": [-26.4700, -51.1500],
-        "PORTO UNIÃO": [-26.2300, -51.0800],
-        "IRINEÓPOLIS": [-26.2300, -50.8000],
-        "CANOINHAS": [-26.1700, -50.4400],
-        "TRÊS BARRAS": [-26.1100, -50.3200],
-        "BELA VISTA DO TOLDO": [-26.2700, -50.4600],
-        "MAFRA": [-26.1100, -49.8000],
-        "ITAIÓPOLIS": [-26.3300, -49.9000],
-        "PAPANDUVA": [-26.3600, -50.1400],
-        "MONTE CASTELO": [-26.4600, -50.2300],
-        "SANTA TEREZINHA": [-26.7800, -50.0100],
-        "SÃO BENTO DO SUL": [-26.2500, -49.3800],
-        "RIO NEGRINHO": [-26.2500, -49.5200],
-        "CAMPO ALEGRE": [-26.1900, -49.2600],
-        "JOINVILLE": [-26.3000, -48.8400],
-        "SÃO FRANCISCO DO SUL": [-26.2400, -48.6300],
-        "ARAQUARI": [-26.3700, -48.7200],
-        "GARUVA": [-26.0300, -48.8500],
-        "ITAPOÁ": [-26.1100, -48.6100],
-        "BALNEÁRIO BARRA DO SUL": [-26.4500, -48.6100],
-        "JARAGUÁ DO SUL": [-26.4800, -49.0800],
-        "GUARAMIRIM": [-26.4700, -49.0000],
-        "SCHROEDER": [-26.4100, -49.0700],
-        "CORUPÁ": [-26.4400, -49.2400],
-        "MASSARANDUBA": [-26.6100, -49.0000],
-        "ITAJAÍ": [-26.9078, -48.6619],
-        "BALNEÁRIO CAMBORIÚ": [-26.9900, -48.6300],
-        "CAMBORIÚ": [-27.0200, -48.6500],
-        "ITAPEMA": [-27.0900, -48.6100],
-        "PORTO BELO": [-27.1500, -48.5500],
-        "BOMBINHAS": [-27.1300, -48.4800],
-        "NAVEGANTES": [-26.8900, -48.6500],
-        "PENHA": [-26.7600, -48.6400],
-        "BALNEÁRIO PIÇARRAS": [-26.7600, -48.6700],
-        "LUIZ ALVES": [-26.7200, -48.9300],
-        "BLUMENAU": [-26.9100, -49.0600],
-        "GASPAR": [-26.9300, -48.9500],
-        "INDAIAL": [-26.8900, -49.2300],
-        "TIMBÓ": [-26.8200, -49.2700],
-        "POMERODE": [-26.7400, -49.1700],
-        "BENEDITO NOVO": [-26.7800, -49.3600],
-        "RIO DOS CEDROS": [-26.7300, -49.2700],
-        "ILHOTA": [-26.8900, -48.8200],
-        "BRUSQUE": [-27.0900, -48.9100],
-        "GUABIRUBA": [-27.0800, -48.9800],
-        "BOTUVERÁ": [-27.2000, -49.1400],
-        "SÃO JOÃO BATISTA": [-27.2700, -48.8400],
-        "CANELINHA": [-27.2600, -48.7600],
-        "TIJUCAS": [-27.2400, -48.6300],
-        "NOVA TRENTO": [-27.2800, -48.9300],
-        "RIO DO SUL": [-27.2100, -49.6400],
-        "IBIRAMA": [-27.0500, -49.5200],
-        "PRESIDENTE GETÚLIO": [-27.0500, -49.6200],
-        "LONTRAS": [-27.1600, -49.5300],
-        "AURORA": [-27.2600, -49.6300],
-        "LAURENTINO": [-27.2200, -49.7300],
-        "RIOS DO OESTE": [-27.1900, -49.8000],
-        "DONA EMMA": [-27.0000, -49.7200],
-        "WITMARSUM": [-26.9200, -49.7900],
-        "PRESIDENTE NEREU": [-27.2700, -49.3800],
-        "ITUPORANGA": [-27.4000, -49.6000],
-        "PETROLÂNDIA": [-27.5300, -49.7000],
-        "VIDAL RAMOS": [-27.3900, -49.3600],
-        "IMBUIA": [-27.4800, -49.4200],
-        "ALFREDO WAGNER": [-27.7000, -49.2000],
-        "IBICUÍ": [-27.4000, -50.0000],
-        "TAIÓ": [-27.1100, -49.9900],
-        "POUSO REDONDO": [-27.2500, -49.9700],
-        "SALETE": [-26.9800, -50.0000],
-        "RIO DO CAMPO": [-26.9400, -50.1300],
-        "MIRIM DOCE": [-27.1900, -50.0800],
-        "SANTA TEREZINHA": [-26.7800, -50.0100],
-        "LAGES": [-27.8100, -50.3200],
-        "OTACÍLIO COSTA": [-27.4800, -50.1100],
-        "CORREIA PINTO": [-27.5800, -50.3600],
-        "PONTE ALTA": [-27.4800, -50.3700],
-        "BOCAINA DO SUL": [-27.7400, -50.1100],
-        "SÃO JOSÉ DO CERRITO": [-27.6600, -50.6400],
-        "PALMEIRA": [-27.5800, -50.1500],
-        "SÃO JOAQUIM": [-28.2700, -49.9300],
-        "URUPEMA": [-27.9500, -49.8700],
-        "URUBICI": [-28.0100, -49.5900],
-        "BOM RETIRO": [-27.7900, -49.4900],
-        "BOM JARDIM DA SERRA": [-28.3300, -49.6200],
-        "RIO FORTUNA": [-28.1300, -49.1000],
-        "GRÃO PARÁ": [-28.1833, -49.2167],
-        "GRÃO-PARÁ": [-28.1833, -49.2167],
-        "BRAÇO DO NORTE": [-28.2700, -49.1700],
-        "SÃO LUDGERO": [-28.3200, -49.1700],
-        "SANTA ROSA DE LIMA": [-28.0300, -49.1300],
-        "GRAVATAL": [-28.3200, -49.0300],
-        "ARMAZÉM": [-28.2500, -49.0100],
-        "TUBARÃO": [-28.4600, -48.9900],
-        "CAPIVARI DE BAIXO": [-28.4400, -48.9600],
-        "JAGUARUNA": [-28.6100, -49.0200],
-        "SANGÃO": [-28.6300, -49.1300],
-        "LAGUNA": [-28.4800, -48.7800],
-        "IMBITUBA": [-28.2400, -48.6600],
-        "GAROPABA": [-28.0200, -48.6100],
-        "PAULO LOPES": [-27.9600, -48.6800],
-        "IMARUÍ": [-28.3400, -48.8100],
-        "CRICIÚMA": [-28.6700, -49.3700],
-        "IÇARA": [-28.7100, -49.3000],
-        "COCAL DO SUL": [-28.6000, -49.3200],
-        "MORRO DA FUMAÇA": [-28.6500, -49.2100],
-        "FORQUILHINHA": [-28.7400, -49.4700],
-        "NOVA VENEZA": [-28.6300, -49.4900],
-        "SIDERÓPOLIS": [-28.5900, -49.4200],
-        "TREVISO": [-28.5100, -49.4500],
-        "URUSSANGA": [-28.5200, -49.3200],
-        "ORLEANS": [-28.3500, -49.2900],
-        "LAURO MÜLLER": [-28.3900, -49.3900],
-        "ARARANGUÁ": [-28.9300, -49.4800],
-        "SOMBRIO": [-29.1100, -49.6100],
-        "TURVO": [-28.9200, -49.6700],
-        "MELEIRO": [-28.8200, -49.6300],
-        "BALNEÁRIO GAIVOTA": [-29.1500, -49.5700],
-        "BALNEÁRIO ARROIO DO SILVA": [-28.9800, -49.4100],
-        "MARACAJÁ": [-28.8400, -49.4500],
-        "ERMO": [-28.9800, -49.6400],
-        "PRAIA GRANDE": [-29.1900, -49.9400],
-        "SANTA ROSA DO SUL": [-29.1300, -49.7100],
-        "SÃO JOÃO DO SUL": [-29.2200, -49.8000],
-        "PASSO DE TORRES": [-29.3100, -49.7200],
-        "JACINTO MACHADO": [-28.9900, -49.7600],
-        "FLORIANÓPOLIS": [-27.5945, -48.5477],
-        "SÃO JOSÉ": [-27.6136, -48.6366],
-        "PALHOÇA": [-27.6430, -48.6650],
-        "BIGUAÇU": [-27.4900, -48.6500],
-        "SANTO AMARO DA IMPERATRIZ": [-27.6800, -48.7700],
-        "ÁGUAS MORNAS": [-27.7000, -48.8200],
-        "ANTÔNIO CARLOS": [-27.5100, -48.7600],
-        "GOVERNADOR CELSO RAMOS": [-27.3100, -48.5500],
-        "SÃO PEDRO DE ALCÂNTARA": [-27.5600, -48.8000],
-        "ALFREDO WAGNER": [-27.7000, -49.2000],
-        "RANCHO QUEIMADO": [-27.6700, -49.0100],
-        "ANGELINA": [-27.5600, -48.9800],
-        "SÃO BONIFÁCIO": [-27.9000, -48.9200],
-        "ITAPIRANGA": [-27.1600, -53.7100],
-        "SÃO JOÃO DO OESTE": [-27.0900, -53.5900],
-        "IPORÃ DO OESTE": [-26.9800, -53.5300],
-        "MONDAÍ": [-27.1000, -53.4000],
-        "SÃO CARLOS": [-27.0800, -53.0000],
-        "PALMITOS": [-27.0600, -53.1600],
-        "CAIBI": [-27.0700, -53.2400],
-        "CUNHA PORÃ": [-26.8900, -53.1600],
-        "RIQUEZA": [-27.0600, -53.3200]
+        "FLORIANÓPOLIS": [-27.5945, -48.5477], "SÃO JOSÉ": [-27.6136, -48.6366], "PALHOÇA": [-27.6430, -48.6650],
+        "XANXERÊ": [-26.8747, -52.4036], "CHAPECÓ": [-27.1000, -52.6150], "SÃO MIGUEL DO OESTE": [-26.7239, -53.5186],
+        "ITAJAÍ": [-26.9078, -48.6619], "GRÃO-PARÁ": [-28.1833, -49.2167], "DESCANSO": [-26.8272, -53.5067],
+        "GUARACIABA": [-26.5986, -53.5175], "MARAVILHA": [-26.7600, -53.1700], "MODELO": [-26.7800, -53.0500],
+        "ROMELÂNDIA": [-26.6800, -53.3200], "IRACEMINHA": [-26.8300, -53.3000], "QUILOMBO": [-26.7300, -52.7300],
+        "PINHALZINHO": [-26.8500, -52.9900], "CURITIBANOS": [-27.2800, -50.5800], "SANTA CECÍLIA": [-26.9600, -50.4200],
+        "LEBON RÉGIS": [-26.9300, -50.6900], "PONTE ALTA DO NORTE": [-27.1600, -50.5900], "SÃO CRISTÓVÃO DO SUL": [-27.2600, -50.4400],
+        "ABELARDO LUZ": [-26.5600, -52.3300], "SÃO DOMINGOS": [-26.5600, -52.5300], "PONTE SERRADA": [-26.8700, -52.0100],
+        "FAXINAL DOS GUEDES": [-26.8500, -52.2600], "ENTRE RIOS": [-26.7200, -52.5600], "SÃO LOURENÇO DO OESTE": [-26.3600, -52.8500],
+        "CAMPO ERÊ": [-26.3900, -53.0800], "SÃO BERNARDINO": [-26.4700, -52.9700], "GALVÃO": [-26.4500, -52.6800],
+        "CORONEL MARTINS": [-26.6000, -52.6800], "JOAÇABA": [-27.1700, -51.5000], "HERVAL D'OESTE": [-27.1800, -51.4900],
+        "TREZE TÍLIAS": [-27.0000, -51.4100], "ÁGUA DOCE": [-26.9900, -51.5500], "ERVAL VELHO": [-27.2700, -51.4400],
+        "LACERDÓPOLIS": [-27.2600, -51.5500], "CAMPOS NOVOS": [-27.4000, -51.2200], "TANGARÁ": [-27.1000, -51.1500],
+        "VARGEM": [-27.4800, -50.9800], "ABDON BATISTA": [-27.6100, -51.0200], "BRUNÓPOLIS": [-27.3100, -50.9100],
+        "CONCÓRDIA": [-27.2300, -52.0300], "SEARA": [-27.1500, -52.3100], "IPUMIRIM": [-27.0800, -52.1300],
+        "LINDOIA DO SUL": [-27.1900, -52.0900], "ITÁ": [-27.2800, -52.3200], "ARABUTÃ": [-27.1500, -52.1400],
+        "IRANI": [-26.9500, -51.8500], "CAPINZAL": [-27.3400, -51.6100], "PIRATUBA": [-27.4200, -51.7800],
+        "OURO": [-27.3300, -51.6200], "IPIRA": [-27.4000, -51.7700], "VIDEIRA": [-27.0000, -51.1500],
+        "FRAIBURGO": [-27.0200, -50.9200], "PINHEIRO PRETO": [-27.0500, -51.2200], "ARROIO TRINTA": [-26.9200, -51.2100],
+        "IOMERÊ": [-27.0000, -51.2400], "CAÇADOR": [-26.7700, -51.0100], "TIMBÓ GRANDE": [-26.6100, -50.6700],
+        "MACIEIRA": [-26.8500, -51.3800], "CALMON": [-26.6000, -51.0900], "MATOS COSTA": [-26.4700, -51.1500],
+        "PORTO UNIÃO": [-26.2300, -51.0800], "IRINEÓPOLIS": [-26.2300, -50.8000], "CANOINHAS": [-26.1700, -50.4400],
+        "TRÊS BARRAS": [-26.1100, -50.3200], "BELA VISTA DO TOLDO": [-26.2700, -50.4600], "MAFRA": [-26.1100, -49.8000],
+        "ITAIÓPOLIS": [-26.3300, -49.9000], "PAPANDUVA": [-26.3600, -50.1400], "MONTE CASTELO": [-26.4600, -50.2300],
+        "SANTA TEREZINHA": [-26.7800, -50.0100], "SÃO BENTO DO SUL": [-26.2500, -49.3800], "RIO NEGRINHO": [-26.2500, -49.5200],
+        "CAMPO ALEGRE": [-26.1900, -49.2600], "JOINVILLE": [-26.3000, -48.8400], "SÃO FRANCISCO DO SUL": [-26.2400, -48.6300],
+        "ARAQUARI": [-26.3700, -48.7200], "GARUVA": [-26.0300, -48.8500], "ITAPOÁ": [-26.1100, -48.6100],
+        "BALNEÁRIO BARRA DO SUL": [-26.4500, -48.6100], "JARAGUÁ DO SUL": [-26.4800, -49.0800], "GUARAMIRIM": [-26.4700, -49.0000],
+        "SCHROEDER": [-26.4100, -49.0700], "CORUPÁ": [-26.4400, -49.2400], "MASSARANDUBA": [-26.6100, -49.0000],
+        "BALNEÁRIO CAMBORIÚ": [-26.9900, -48.6300], "CAMBORIÚ": [-27.0200, -48.6500], "ITAPEMA": [-27.0900, -48.6100],
+        "PORTO BELO": [-27.1500, -48.5500], "BOMBINHAS": [-27.1300, -48.4800], "NAVEGANTES": [-26.8900, -48.6500],
+        "PENHA": [-26.7600, -48.6400], "BALNEÁRIO PIÇARRAS": [-26.7600, -48.6700], "LUIZ ALVES": [-26.7200, -48.9300],
+        "BLUMENAU": [-26.9100, -49.0600], "GASPAR": [-26.9300, -48.9500], "INDAIAL": [-26.8900, -49.2300],
+        "TIMBÓ": [-26.8200, -49.2700], "POMERODE": [-26.7400, -49.1700], "BENEDITO NOVO": [-26.7800, -49.3600],
+        "RIO DOS CEDROS": [-26.7300, -49.2700], "ILHOTA": [-26.8900, -48.8200], "BRUSQUE": [-27.0900, -48.9100],
+        "GUABIRUBA": [-27.0800, -48.9800], "BOTUVERÁ": [-27.2000, -49.1400], "SÃO JOÃO BATISTA": [-27.2700, -48.8400],
+        "CANELINHA": [-27.2600, -48.7600], "TIJUCAS": [-27.2400, -48.6300], "NOVA TRENTO": [-27.2800, -48.9300],
+        "RIO DO SUL": [-27.2100, -49.6400], "IBIRAMA": [-27.0500, -49.5200], "PRESIDENTE GETÚLIO": [-27.0500, -49.6200],
+        "LONTRAS": [-27.1600, -49.5300], "AURORA": [-27.2600, -49.6300], "LAURENTINO": [-27.2200, -49.7300],
+        "RIOS DO OESTE": [-27.1900, -49.8000], "DONA EMMA": [-27.0000, -49.7200], "WITMARSUM": [-26.9200, -49.7900],
+        "PRESIDENTE NEREU": [-27.2700, -49.3800], "ITUPORANGA": [-27.4000, -49.6000], "PETROLÂNDIA": [-27.5300, -49.7000],
+        "VIDAL RAMOS": [-27.3900, -49.3600], "IMBUIA": [-27.4800, -49.4200], "ALFREDO WAGNER": [-27.7000, -49.2000],
+        "TAIÓ": [-27.1100, -49.9900], "POUSO REDONDO": [-27.2500, -49.9700], "SALETE": [-26.9800, -50.0000],
+        "RIO DO CAMPO": [-26.9400, -50.1300], "MIRIM DOCE": [-27.1900, -50.0800], "LAGES": [-27.8100, -50.3200],
+        "OTACÍLIO COSTA": [-27.4800, -50.1100], "CORREIA PINTO": [-27.5800, -50.3600], "PONTE ALTA": [-27.4800, -50.3700],
+        "BOCAINA DO SUL": [-27.7400, -50.1100], "SÃO JOSÉ DO CERRITO": [-27.6600, -50.6400], "PALMEIRA": [-27.5800, -50.1500],
+        "SÃO JOAQUIM": [-28.2700, -49.9300], "URUPEMA": [-27.9500, -49.8700], "URUBICI": [-28.0100, -49.5900],
+        "BOM RETIRO": [-27.7900, -49.4900], "BOM JARDIM DA SERRA": [-28.3300, -49.6200], "RIO FORTUNA": [-28.1300, -49.1000],
+        "BRAÇO DO NORTE": [-28.2700, -49.1700], "SÃO LUDGERO": [-28.3200, -49.1700], "SANTA ROSA DE LIMA": [-28.0300, -49.1300],
+        "GRAVATAL": [-28.3200, -49.0300], "ARMAZÉM": [-28.2500, -49.0100], "TUBARÃO": [-28.4600, -48.9900],
+        "CAPIVARI DE BAIXO": [-28.4400, -48.9600], "JAGUARUNA": [-28.6100, -49.0200], "SANGÃO": [-28.6300, -49.1300],
+        "LAGUNA": [-28.4800, -48.7800], "IMBITUBA": [-28.2400, -48.6600], "GAROPABA": [-28.0200, -48.6100],
+        "PAULO LOPES": [-27.9600, -48.6800], "IMARUÍ": [-28.3400, -48.8100], "CRICIÚMA": [-28.6700, -49.3700],
+        "IÇARA": [-28.7100, -49.3000], "COCAL DO SUL": [-28.6000, -49.3200], "MORRO DA FUMAÇA": [-28.6500, -49.2100],
+        "FORQUILHINHA": [-28.7400, -49.4700], "NOVA VENEZA": [-28.6300, -49.4900], "SIDERÓPOLIS": [-28.5900, -49.4200],
+        "TREVISO": [-28.5100, -49.4500], "URUSSANGA": [-28.5200, -49.3200], "ORLEANS": [-28.3500, -49.2900],
+        "LAURO MÜLLER": [-28.3900, -49.3900], "ARARANGUÁ": [-28.9300, -49.4800], "SOMBRIO": [-29.1100, -49.6100],
+        "TURVO": [-28.9200, -49.6700], "MELEIRO": [-28.8200, -49.6300], "BALNEÁRIO GAIVOTA": [-29.1500, -49.5700],
+        "BALNEÁRIO ARROIO DO SILVA": [-28.9800, -49.4100], "MARACAJÁ": [-28.8400, -49.4500], "ERMO": [-28.9800, -49.6400],
+        "PRAIA GRANDE": [-29.1900, -49.9400], "SANTA ROSA DO SUL": [-29.1300, -49.7100], "SÃO JOÃO DO SUL": [-29.2200, -49.8000],
+        "PASSO DE TORRES": [-29.3100, -49.7200], "JACINTO MACHADO": [-28.9900, -49.7600], "BIGUAÇU": [-27.4900, -48.6500],
+        "SANTO AMARO DA IMPERATRIZ": [-27.6800, -48.7700], "ÁGUAS MORNAS": [-27.7000, -48.8200], "ANTÔNIO CARLOS": [-27.5100, -48.7600],
+        "GOVERNADOR CELSO RAMOS": [-27.3100, -48.5500], "SÃO PEDRO DE ALCÂNTARA": [-27.5600, -48.8000],
+        "RANCHO QUEIMADO": [-27.6700, -49.0100], "ANGELINA": [-27.5600, -48.9800], "SÃO BONIFÁCIO": [-27.9000, -48.9200],
+        "ITAPIRANGA": [-27.1600, -53.7100], "SÃO JOÃO DO OESTE": [-27.0900, -53.5900], "IPORÃ DO OESTE": [-26.9800, -53.5300],
+        "MONDAÍ": [-27.1000, -53.4000], "SÃO CARLOS": [-27.0800, -53.0000], "PALMITOS": [-27.0600, -53.1600],
+        "CAIBI": [-27.0700, -53.2400], "CUNHA PORÃ": [-26.8900, -53.1600], "RIQUEZA": [-27.0600, -53.3200]
     };
 
     const map = L.map('map', { zoomControl: false }).setView([-27.2423, -50.2189], 7);
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    // Adicionar contorno de Santa Catarina
     fetch('https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-states.geojson')
         .then(response => response.json())
         .then(data => {
             const sc = data.features.find(f => f.properties.sigla === 'SC' || f.properties.name === 'Santa Catarina');
             if (sc) {
                 L.geoJSON(sc, {
-                    style: {
-                        fillColor: '#ED1C24',
-                        fillOpacity: 0.02,
-                        color: '#231F20',
-                        weight: 3,
-                        dashArray: ''
-                    },
+                    style: { fillColor: '#ED1C24', fillOpacity: 0.02, color: '#231F20', weight: 3 },
                     interactive: false
                 }).addTo(map);
             }
@@ -673,76 +458,34 @@
         .then(res => res.json())
         .then(munData => {
             L.geoJSON(munData, {
-                style: (feature) => {
-                    const munName = feature.properties.name.toUpperCase().trim();
-                    const hasProgram = proepData[munName];
-                    return {
-                        fillColor: hasProgram ? '#ED1C24' : '#ffffff',
-                        fillOpacity: hasProgram ? 0.25 : 0.01,
-                        color: '#adb5bd',
-                        weight: 0.8
-                    };
-                },
+                style: { fillColor: '#ffffff', fillOpacity: 0.01, color: '#ced4da', weight: 0.5 },
                 onEachFeature: (feature, layer) => {
                     const munName = feature.properties.name;
                     if (munName) {
                         layer.bindTooltip(munName, { sticky: true, className: 'mun-tooltip' });
-                        
                         const munUpper = munName.toUpperCase().trim();
                         if (proepData[munUpper]) {
-                            layer.on('click', () => {
-                                map.fitBounds(layer.getBounds(), { padding: [50, 50] });
-                                showCityDetails(munUpper);
-                            });
+                            layer.setStyle({ fillColor: '#ED1C24', fillOpacity: 0.15 });
+                            layer.on('click', () => { map.fitBounds(layer.getBounds()); showCityDetails(munUpper); });
                         }
                     }
                 }
             }).addTo(map);
-        })
-        .catch(err => console.error('Erro ao carregar malha do IBGE:', err));
-
-    // Camada de Calor (Heatmap)
-    let heatLayer = null;
+        });
 
     async function loadData() {
         const { data, error } = await _supabase.from('instituicoes_proep').select('*');
-        if (error) {
-            console.error('Erro ao carregar dados:', error);
-            return;
-        }
-
-        // Organizar dados por cidade
+        if (error) return;
         proepData = {};
-        let totais = { inst: 0, mun: new Set(), apr: 0, tur: 0, masc: 0, fem: 0, di: 0, tea: 0, fund: 0, medio: 0 };
-
+        let totais = { inst: 0, mun: new Set(), apr: 0, tur: 0, masc: 0, fem: 0, di: 0, tea: 0 };
         data.forEach(item => {
-            // Normalizar nome do município para agrupar corretamente
             const mun = item.municipio.toUpperCase().trim();
             if (!proepData[mun]) proepData[mun] = [];
-            
-            proepData[mun].push({
-                name: item.instituicao_nome,
-                ini_t: item.ini_t,
-                ini_a: item.ini_a,
-                pre_t: item.pre_t,
-                pre_a: item.pre_a
-            });
-
-            // Atualizar Totais Gerais
-            totais.inst++;
-            totais.mun.add(mun);
-            totais.apr += (item.ini_a + item.pre_a);
-            totais.tur += (item.ini_t + item.pre_t);
-            totais.masc += item.masculino;
-            totais.fem += item.feminino;
-            totais.di += item.di;
-            totais.tea += item.tea;
+            proepData[mun].push({ name: item.instituicao_nome, ini_t: item.ini_t, ini_a: item.ini_a, pre_t: item.pre_t, pre_a: item.pre_a });
+            totais.inst++; totais.mun.add(mun);
+            totais.apr += (item.ini_a + item.pre_a); totais.tur += (item.ini_t + item.pre_t);
+            totais.masc += item.masculino; totais.fem += item.feminino; totais.di += item.di; totais.tea += item.tea;
         });
-
-        // Forçar atualização do contador de municípios ANTES de desenhar a malha
-        const munCountElement = document.querySelector('.stat-grid .stat-box:nth-child(2) .stat-val');
-        if (munCountElement) munCountElement.innerText = totais.mun.size;
-
         updateDashboard(totais);
         updateMap();
     }
@@ -750,187 +493,78 @@
     function updateDashboard(totais) {
         document.getElementById('total-aprendizes-geral').innerText = totais.apr.toLocaleString();
         document.getElementById('total-turmas-geral').innerText = totais.tur;
-        
-        // Atualizar contador de municípios ativos (somente os que têm o programa)
-        const munCountElement = document.querySelector('.stat-grid .stat-box:nth-child(2) .stat-val');
-        if (munCountElement) {
-            munCountElement.innerText = totais.mun.size;
-        }
-
-        // Atualizar contador de instituições
-        const instCountElement = document.querySelector('.stat-grid .stat-box:nth-child(1) .stat-val');
-        if (instCountElement) {
-            instCountElement.innerText = totais.inst;
-        }
-        
-        // Atualizar Gráficos
+        document.querySelector('.stat-grid .stat-box:nth-child(2) .stat-val').innerText = totais.mun.size;
+        document.querySelector('.stat-grid .stat-box:nth-child(1) .stat-val').innerText = totais.inst;
         updateCharts(totais);
     }
 
     function updateMap() {
-        // Limpar marcadores e calor existentes
-        map.eachLayer((layer) => {
-            if (layer instanceof L.CircleMarker) {
-                map.removeLayer(layer);
-            }
-        });
-        
-        if (heatLayer) {
-            map.removeLayer(heatLayer);
-            heatLayer = null;
-        }
-
+        map.eachLayer(layer => { if (layer instanceof L.CircleMarker) map.removeLayer(layer); });
+        if (heatLayer) map.removeLayer(heatLayer);
         let heatPoints = [];
-
         Object.keys(proepData).forEach(city => {
-            const cityUpper = city.toUpperCase().trim();
-            if (cityCoords[cityUpper]) {
-                const coords = cityCoords[cityUpper];
-                
-                // Marcador Individual
-                const marker = L.circleMarker(coords, {
-                    radius: 10, fillColor: '#ED1C24', color: '#fff', weight: 2, opacity: 1, fillOpacity: 0.9
-                }).addTo(map);
-                
-                // Ao clicar no marcador, mostramos a lista de instituições daquela cidade
-                marker.on('click', () => showCityDetails(city));
-
-                // Adicionar ao Calor (baseado no nº de aprendizes)
+            if (cityCoords[city]) {
+                const coords = cityCoords[city];
+                L.circleMarker(coords, { radius: 10, fillColor: '#ED1C24', color: '#fff', weight: 2, opacity: 1, fillOpacity: 0.9 }).addTo(map).on('click', () => showCityDetails(city));
                 const totalApr = proepData[city].reduce((acc, curr) => acc + (curr.ini_a + curr.pre_a), 0);
-                // Aumentar a intensidade do ponto no heatmap (weight)
-                heatPoints.push([coords[0], coords[1], Math.min(totalApr / 20, 5)]); 
+                heatPoints.push([coords[0], coords[1], Math.min(totalApr / 50, 1)]);
             }
         });
-
-        // Adicionar nova camada de calor se houver pontos
         if (typeof L.heatLayer === 'function' && heatPoints.length > 0) {
-            heatLayer = L.heatLayer(heatPoints, {
-                radius: 30,
-                blur: 20,
-                maxZoom: 10,
-                gradient: {0.2: 'blue', 0.4: 'cyan', 0.6: 'lime', 0.8: 'yellow', 1: 'red'}
-            }).addTo(map);
+            heatLayer = L.heatLayer(heatPoints, { radius: 25, blur: 15, maxZoom: 10, gradient: {0.4: 'blue', 0.6: 'cyan', 0.7: 'lime', 0.8: 'yellow', 1: 'red'} }).addTo(map);
         }
     }
 
     function showCityDetails(city) {
         const win = document.getElementById('info-window');
         const list = document.getElementById('inst-list');
-        const cityName = document.getElementById('info-city-name');
         win.style.display = 'block';
         document.getElementById('inst-detail').style.display = 'none';
-        cityName.innerText = city;
+        document.getElementById('info-city-name').innerText = city;
         list.innerHTML = '';
         proepData[city].forEach(inst => {
-            const li = document.createElement('li');
-            li.className = 'inst-item';
-            li.innerText = inst.name;
-            li.onclick = () => showInstDetails(inst);
-            list.appendChild(li);
+            const li = document.createElement('li'); li.className = 'inst-item'; li.innerText = inst.name;
+            li.onclick = () => showInstDetails(inst); list.appendChild(li);
         });
     }
 
     function showInstDetails(inst) {
         document.getElementById('inst-detail').style.display = 'block';
         document.getElementById('detail-name').innerText = inst.name;
-        document.getElementById('val-ini-t').innerText = inst.ini_t;
-        document.getElementById('val-ini-a').innerText = inst.ini_a;
-        document.getElementById('val-pre-t').innerText = inst.pre_t;
-        document.getElementById('val-pre-a').innerText = inst.pre_a;
+        document.getElementById('val-ini-t').innerText = inst.ini_t; document.getElementById('val-ini-a').innerText = inst.ini_a;
+        document.getElementById('val-pre-t').innerText = inst.pre_t; document.getElementById('val-pre-a').innerText = inst.pre_a;
     }
 
     function closeInfo() { document.getElementById('info-window').style.display = 'none'; }
 
-    // Reinicializar os gráficos de pizza se já existirem
     function updateCharts(totais) {
-        // Gênero
         if(charts.sex) charts.sex.destroy();
-        charts.sex = createSexChart('sexChart', ['Masc.', 'Fem.'], [totais.masc || 135, totais.fem || 108]);
-
-        // Deficiência
+        charts.sex = new Chart(document.getElementById('sexChart'), { type: 'doughnut', data: { labels: ['Masc.', 'Fem.'], datasets: [{ data: [totais.masc, totais.fem], backgroundColor: ['#231F20', '#ED1C24'] }] }, options: { maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right' } } } });
         if(charts.def) charts.def.destroy();
-        charts.def = createDefChart('defChart', ['DI', 'TEA', 'Outros'], [totais.di || 168, totais.tea || 59, 16]);
+        charts.def = new Chart(document.getElementById('defChart'), { type: 'doughnut', data: { labels: ['DI', 'TEA', 'Outros'], datasets: [{ data: [totais.di, totais.tea, 0], backgroundColor: ['#ED1C24', '#5FB157', '#A1C84D'] }] }, options: { maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
     }
 
-    function createSexChart(id, labels, data) {
-        return new Chart(document.getElementById(id), {
-            type: 'doughnut',
-            data: { labels, datasets: [{ data, backgroundColor: ['#231F20', '#ED1C24'], borderWidth: 2, borderColor: '#ffffff' }] },
-            options: { maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right', labels: { boxWidth: 10, padding: 10, font: { size: 10, weight: '600' } } } } }
-        });
-    }
-
-    function createDefChart(id, labels, data) {
-        return new Chart(document.getElementById(id), {
-            type: 'doughnut',
-            data: { labels, datasets: [{ data, backgroundColor: ['#ED1C24', '#5FB157', '#A1C84D'], borderWidth: 2, borderColor: '#ffffff' }] },
-            options: { maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 10, padding: 8, font: { size: 10 } } } } }
-        });
-    }
-
-    createAgeChart('ageChart', ['14-18', '19-24', '25-40', '40+'], [450, 820, 410, 160]);
-    createEscChart('escChart', ['Inc.', 'Fund.', 'Médio'], [38, 142, 63]);
-
-    // Busca Interativa
     const searchInput = document.getElementById('map-search');
     const searchResults = document.getElementById('search-results');
-
-    searchInput.addEventListener('input', (e) => {
+    searchInput.addEventListener('input', e => {
         const term = e.target.value.toLowerCase();
-        if (term.length < 2) {
-            searchResults.style.display = 'none';
-            return;
-        }
-
+        if (term.length < 2) { searchResults.style.display = 'none'; return; }
         const filtered = [];
         Object.keys(proepData).forEach(city => {
-            if (city.toLowerCase().includes(term)) {
-                filtered.push({ type: 'Cidade', name: city });
-            }
-            proepData[city].forEach(inst => {
-                if (inst.name.toLowerCase().includes(term)) {
-                    filtered.push({ type: 'Instituição', name: inst.name, city: city });
-                }
-            });
+            if (city.toLowerCase().includes(term)) filtered.push({ type: 'Cidade', name: city });
+            proepData[city].forEach(inst => { if (inst.name.toLowerCase().includes(term)) filtered.push({ type: 'Instituição', name: inst.name, city: city }); });
         });
-
         if (filtered.length > 0) {
-            searchResults.innerHTML = filtered.slice(0, 8).map(item => `
-                <div class="search-item" onclick="goToLocation('${item.city || item.name}', '${item.type === 'Instituição' ? item.name : ''}')">
-                    <strong>${item.name}</strong> <br>
-                    <small>${item.type} ${item.city ? ' - ' + item.city : ''}</small>
-                </div>
-            `).join('');
+            searchResults.innerHTML = filtered.slice(0, 8).map(item => `<div class="search-item" onclick="goToLocation('${item.city || item.name}', '${item.type === 'Instituição' ? item.name : ''}')"><strong>${item.name}</strong><br><small>${item.type}${item.city ? ' - '+item.city : ''}</small></div>`).join('');
             searchResults.style.display = 'block';
-        } else {
-            searchResults.style.display = 'none';
-        }
+        } else searchResults.style.display = 'none';
     });
 
     window.goToLocation = (city, instName) => {
-        const cityUpper = city.toUpperCase().trim();
-        if (cityCoords[cityUpper]) {
-            map.setView(cityCoords[cityUpper], 12);
-            showCityDetails(city);
-            if (instName) {
-                const inst = proepData[city].find(i => i.name === instName);
-                if (inst) showInstDetails(inst);
-            }
-            searchResults.style.display = 'none';
-            searchInput.value = '';
-        }
+        if (cityCoords[city]) { map.setView(cityCoords[city], 12); showCityDetails(city); if (instName) { const inst = proepData[city].find(i => i.name === instName); if (inst) showInstDetails(inst); } searchResults.style.display = 'none'; searchInput.value = ''; }
     };
-
-    // Fechar resultados ao clicar fora
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-container')) {
-            searchResults.style.display = 'none';
-        }
-    });
-
-    // Inicializar
+    document.addEventListener('click', e => { if (!e.target.closest('.search-container')) searchResults.style.display = 'none'; });
     loadData();
 </script>
-
 </body>
 </html>
