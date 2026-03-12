@@ -592,6 +592,24 @@
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
+    // Adicionar contorno de Santa Catarina
+    fetch('https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-states.geojson')
+        .then(response => response.json())
+        .then(data => {
+            const sc = data.features.find(f => f.properties.sigla === 'SC' || f.properties.name === 'Santa Catarina');
+            if (sc) {
+                L.geoJSON(sc, {
+                    style: {
+                        fillColor: '#ED1C24',
+                        fillOpacity: 0.05,
+                        color: '#ED1C24',
+                        weight: 2,
+                        dashArray: '5, 5'
+                    }
+                }).addTo(map);
+            }
+        });
+
     // Camada de Calor (Heatmap)
     let heatLayer = null;
 
