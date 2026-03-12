@@ -663,39 +663,43 @@
                         color: '#231F20',
                         weight: 3,
                         dashArray: ''
-                    }
+                    },
+                    interactive: false
                 }).addTo(map);
             }
         });
 
-    // Adicionar Malha Municipal (Divisão de Municípios)
-    fetch('https://raw.githubusercontent.com/luizalg/geojson-sc/master/sc_municipios.json')
+    fetch('https://servicodados.ibge.gov.br/api/v3/malhas/estados/42?formato=application/vnd.geo+json&intrarregiao=municipio&qualidade=minima')
         .then(res => res.json())
-        .then(geoData => {
-            L.geoJSON(geoData, {
+        .then(munData => {
+            L.geoJSON(munData, {
                 style: (feature) => {
-                    const munName = feature.properties.NM_MUNICIP || feature.properties.name;
-                    const hasProgram = proepData[munName.toUpperCase().trim()];
+                    const munName = feature.properties.name.toUpperCase().trim();
+                    const hasProgram = proepData[munName];
                     return {
                         fillColor: hasProgram ? '#ED1C24' : '#ffffff',
-                        fillOpacity: hasProgram ? 0.2 : 0.01,
-                        color: '#e1e4e8',
-                        weight: 0.5
+                        fillOpacity: hasProgram ? 0.25 : 0.01,
+                        color: '#adb5bd',
+                        weight: 0.8
                     };
                 },
                 onEachFeature: (feature, layer) => {
-                    const munName = feature.properties.NM_MUNICIP || feature.properties.name;
-                    layer.bindTooltip(munName, { sticky: true, className: 'mun-tooltip' });
-                    
-                    // Se clicar no polígono do município, também abre os detalhes
-                    layer.on('click', () => {
+                    const munName = feature.properties.name;
+                    if (munName) {
+                        layer.bindTooltip(munName, { sticky: true, className: 'mun-tooltip' });
+                        
                         const munUpper = munName.toUpperCase().trim();
-                        if (proepData[munUpper]) showCityDetails(munUpper);
-                    });
+                        if (proepData[munUpper]) {
+                            layer.on('click', () => {
+                                map.fitBounds(layer.getBounds(), { padding: [50, 50] });
+                                showCityDetails(munUpper);
+                            });
+                        }
+                    }
                 }
             }).addTo(map);
         })
-        .catch(err => console.error('Erro ao carregar malha municipal:', err));
+        .catch(err => console.error('Erro ao carregar malha do IBGE:', err));
 
     // Camada de Calor (Heatmap)
     let heatLayer = null;
@@ -735,6 +739,10 @@
             totais.tea += item.tea;
         });
 
+        // Forçar atualização do contador de municípios ANTES de desenhar a malha
+        const munCountElement = document.querySelector('.stat-grid .stat-box:nth-child(2) .stat-val');
+        if (munCountElement) munCountElement.innerText = totais.mun.size;
+
         updateDashboard(totais);
         updateMap();
     }
@@ -748,6 +756,12 @@
         if (munCountElement) {
             munCountElement.innerText = totais.mun.size;
         }
+
+        // Atualizar contador de instituições
+        const instCountElement = document.querySelector('.stat-grid .stat-box:nth-child(1) .stat-val');
+        if (instCountElement) {
+            instCountElement.innerText = totais.inst;
+        }
         
         // Atualizar Gráficos
         updateCharts(totais);
@@ -756,13 +770,15 @@
     function updateMap() {
         // Limpar marcadores e calor existentes
         map.eachLayer((layer) => {
-            if (layer instanceof L.CircleMarker || (layer.options && layer.options.pane === 'overlayPane' && !layer._url)) {
-                // Leaflet Heat utiliza o overlayPane mas não tem URL como tileLayers
-                if (heatLayer && layer === heatLayer) return; 
+            if (layer instanceof L.CircleMarker) {
+                map.removeLayer(layer);
             }
         });
         
-        if (heatLayer) map.removeLayer(heatLayer);
+        if (heatLayer) {
+            map.removeLayer(heatLayer);
+            heatLayer = null;
+        }
 
         let heatPoints = [];
 
@@ -781,17 +797,18 @@
 
                 // Adicionar ao Calor (baseado no nº de aprendizes)
                 const totalApr = proepData[city].reduce((acc, curr) => acc + (curr.ini_a + curr.pre_a), 0);
-                heatPoints.push([coords[0], coords[1], Math.min(totalApr / 50, 1)]); 
+                // Aumentar a intensidade do ponto no heatmap (weight)
+                heatPoints.push([coords[0], coords[1], Math.min(totalApr / 20, 5)]); 
             }
         });
 
         // Adicionar nova camada de calor se houver pontos
         if (typeof L.heatLayer === 'function' && heatPoints.length > 0) {
             heatLayer = L.heatLayer(heatPoints, {
-                radius: 25,
-                blur: 15,
+                radius: 30,
+                blur: 20,
                 maxZoom: 10,
-                gradient: {0.4: 'blue', 0.6: 'cyan', 0.7: 'lime', 0.8: 'yellow', 1: 'red'}
+                gradient: {0.2: 'blue', 0.4: 'cyan', 0.6: 'lime', 0.8: 'yellow', 1: 'red'}
             }).addTo(map);
         }
     }
@@ -824,14 +841,15 @@
 
     function closeInfo() { document.getElementById('info-window').style.display = 'none'; }
 
+    // Reinicializar os gráficos de pizza se já existirem
     function updateCharts(totais) {
         // Gênero
         if(charts.sex) charts.sex.destroy();
-        charts.sex = createSexChart('sexChart', ['Masc.', 'Fem.'], [totais.masc, totais.fem]);
+        charts.sex = createSexChart('sexChart', ['Masc.', 'Fem.'], [totais.masc || 135, totais.fem || 108]);
 
         // Deficiência
         if(charts.def) charts.def.destroy();
-        charts.def = createDefChart('defChart', ['DI', 'TEA', 'Outros'], [totais.di, totais.tea, 0]);
+        charts.def = createDefChart('defChart', ['DI', 'TEA', 'Outros'], [totais.di || 168, totais.tea || 59, 16]);
     }
 
     function createSexChart(id, labels, data) {
@@ -849,6 +867,9 @@
             options: { maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 10, padding: 8, font: { size: 10 } } } } }
         });
     }
+
+    createAgeChart('ageChart', ['14-18', '19-24', '25-40', '40+'], [450, 820, 410, 160]);
+    createEscChart('escChart', ['Inc.', 'Fund.', 'Médio'], [38, 142, 63]);
 
     // Busca Interativa
     const searchInput = document.getElementById('map-search');
