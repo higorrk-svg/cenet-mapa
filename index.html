@@ -357,42 +357,93 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
     // Configurações Globais Chart.js
     Chart.defaults.font.size = 11;
     Chart.defaults.font.family = "'Inter', sans-serif";
     Chart.defaults.color = '#475569';
 
-    const proepData = {
-        "Florianópolis": [
-            { name: "APAE de Florianópolis", ini_t: 2, ini_a: 19, pre_t: 4, pre_a: 50 },
-            { name: "ACIC", ini_t: 1, ini_a: 12, pre_t: 1, pre_a: 15 },
-            { name: "Ama Florianópolis", ini_t: 1, ini_a: 10, pre_t: 1, pre_a: 10 }
-        ],
-        "São José": [
-            { name: "APAE de São José", ini_t: 3, ini_a: 25, pre_t: 5, pre_a: 60 }
-        ],
-        "Palhoça": [
-            { name: "APAE de Palhoça", ini_t: 1, ini_a: 10, pre_t: 2, pre_a: 22 }
-        ]
-    };
+    // Configuração Supabase
+    const SUPABASE_URL = 'https://blzzetfruubfadmllgws.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsenpldGZydXViZmFkbWxsZ3dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzgxMjgsImV4cCI6MjA4ODkxNDEyOH0.ZBIkHOkm96G3_9mxin6CxvoJ2Hk8KdfzpGUEzEKR704';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const map = L.map('map', { zoomControl: false }).setView([-27.5945, -48.5477], 11);
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+    let proepData = {};
+    let charts = {};
 
     const cityCoords = {
         "Florianópolis": [-27.5945, -48.5477],
         "São José": [-27.6136, -48.6366],
-        "Palhoça": [-27.6430, -48.6650]
+        "Palhoça": [-27.6430, -48.6650],
+        "Xanxerê": [-26.8747, -52.4036],
+        "Chapecó": [-27.1000, -52.6150],
+        "São Miguel do Oeste": [-26.7239, -53.5186],
+        "Itajaí": [-26.9078, -48.6619],
+        "Grão-Pará": [-28.1833, -49.2167]
     };
 
-    Object.keys(cityCoords).forEach(city => {
-        const marker = L.circleMarker(cityCoords[city], {
-            radius: 12, fillColor: '#ED1C24', color: '#fff', weight: 3, opacity: 1, fillOpacity: 0.95
-        }).addTo(map);
-        marker.on('click', () => showCityDetails(city));
-    });
+    const map = L.map('map', { zoomControl: false }).setView([-27.2423, -50.2189], 7);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+    async function loadData() {
+        const { data, error } = await _supabase.from('instituicoes_proep').select('*');
+        if (error) {
+            console.error('Erro ao carregar dados:', error);
+            return;
+        }
+
+        // Organizar dados por cidade
+        proepData = {};
+        let totais = { inst: 0, mun: new Set(), apr: 0, tur: 0, masc: 0, fem: 0, di: 0, tea: 0, fund: 0, medio: 0 };
+
+        data.forEach(item => {
+            const mun = item.municipio;
+            if (!proepData[mun]) proepData[mun] = [];
+            
+            proepData[mun].push({
+                name: item.instituicao_nome,
+                ini_t: item.ini_t,
+                ini_a: item.ini_a,
+                pre_t: item.pre_t,
+                pre_a: item.pre_a
+            });
+
+            // Atualizar Totais Gerais
+            totais.inst++;
+            totais.mun.add(mun);
+            totais.apr += (item.ini_a + item.pre_a);
+            totais.tur += (item.ini_t + item.pre_t);
+            totais.masc += item.masculino;
+            totais.fem += item.feminino;
+            totais.di += item.di;
+            totais.tea += item.tea;
+        });
+
+        updateDashboard(totais);
+        updateMap();
+    }
+
+    function updateDashboard(totais) {
+        document.getElementById('total-aprendizes-geral').innerText = totais.apr.toLocaleString();
+        document.getElementById('total-turmas-geral').innerText = totais.tur;
+        
+        // Atualizar Gráficos
+        updateCharts(totais);
+    }
+
+    function updateMap() {
+        // Limpar marcadores existentes se houver (opcional)
+        Object.keys(proepData).forEach(city => {
+            if (cityCoords[city]) {
+                const marker = L.circleMarker(cityCoords[city], {
+                    radius: 12, fillColor: '#ED1C24', color: '#fff', weight: 3, opacity: 1, fillOpacity: 0.95
+                }).addTo(map);
+                marker.on('click', () => showCityDetails(city));
+            }
+        });
+    }
 
     function showCityDetails(city) {
         const win = document.getElementById('info-window');
@@ -422,20 +473,21 @@
 
     function closeInfo() { document.getElementById('info-window').style.display = 'none'; }
 
-    // Gráficos Modernos
+    function updateCharts(totais) {
+        // Gênero
+        if(charts.sex) charts.sex.destroy();
+        charts.sex = createSexChart('sexChart', ['Masc.', 'Fem.'], [totais.masc, totais.fem]);
+
+        // Deficiência
+        if(charts.def) charts.def.destroy();
+        charts.def = createDefChart('defChart', ['DI', 'TEA', 'Outros'], [totais.di, totais.tea, 0]);
+    }
+
     function createSexChart(id, labels, data) {
         return new Chart(document.getElementById(id), {
             type: 'doughnut',
             data: { labels, datasets: [{ data, backgroundColor: ['#231F20', '#ED1C24'], borderWidth: 2, borderColor: '#ffffff' }] },
             options: { maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right', labels: { boxWidth: 10, padding: 10, font: { size: 10, weight: '600' } } } } }
-        });
-    }
-
-    function createAgeChart(id, labels, data) {
-        return new Chart(document.getElementById(id), {
-            type: 'bar',
-            data: { labels, datasets: [{ data, backgroundColor: '#ED1C24', borderRadius: 4, barThickness: 15 }] },
-            options: { indexAxis: 'y', maintainAspectRatio: false, scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 10, weight: '600' } } } }, plugins: { legend: { display: false } } }
         });
     }
 
@@ -447,18 +499,8 @@
         });
     }
 
-    function createEscChart(id, labels, data) {
-        return new Chart(document.getElementById(id), {
-            type: 'bar',
-            data: { labels, datasets: [{ data, backgroundColor: ['#231F20', '#5FB157', '#ED1C24'], borderRadius: 4 }] },
-            options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, border: { display: false } }, x: { grid: { display: false }, ticks: { font: { size: 10, weight: '600' } } } }, plugins: { legend: { display: false } } }
-        });
-    }
-
-    createSexChart('sexChart', ['Masculino', 'Feminino'], [135, 108]);
-    createAgeChart('ageChart', ['14-18', '19-24', '25-40', '40+'], [450, 820, 410, 160]);
-    createDefChart('defChart', ['DI', 'TEA', 'Outros'], [168, 59, 16]);
-    createEscChart('escChart', ['Inc.', 'Fund.', 'Médio'], [38, 142, 63]);
+    // Inicializar
+    loadData();
 </script>
 
 </body>
