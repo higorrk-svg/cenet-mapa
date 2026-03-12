@@ -625,7 +625,8 @@
         let totais = { inst: 0, mun: new Set(), apr: 0, tur: 0, masc: 0, fem: 0, di: 0, tea: 0, fund: 0, medio: 0 };
 
         data.forEach(item => {
-            const mun = item.municipio;
+            // Normalizar nome do município para agrupar corretamente
+            const mun = item.municipio.toUpperCase().trim();
             if (!proepData[mun]) proepData[mun] = [];
             
             proepData[mun].push({
@@ -670,7 +671,7 @@
         map.eachLayer((layer) => {
             if (layer instanceof L.CircleMarker || (layer.options && layer.options.pane === 'overlayPane' && !layer._url)) {
                 // Leaflet Heat utiliza o overlayPane mas não tem URL como tileLayers
-                if (layer !== heatLayer) return; // Segurança básica
+                if (heatLayer && layer === heatLayer) return; 
             }
         });
         
@@ -687,6 +688,8 @@
                 const marker = L.circleMarker(coords, {
                     radius: 10, fillColor: '#ED1C24', color: '#fff', weight: 2, opacity: 1, fillOpacity: 0.9
                 }).addTo(map);
+                
+                // Ao clicar no marcador, mostramos a lista de instituições daquela cidade
                 marker.on('click', () => showCityDetails(city));
 
                 // Adicionar ao Calor (baseado no nº de aprendizes)
