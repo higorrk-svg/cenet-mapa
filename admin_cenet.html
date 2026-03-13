@@ -101,6 +101,7 @@
             </div>
 
             <form id="proep-form">
+                <input type="hidden" id="record_id">
                 <span class="section-title">1. Identificação</span>
                 <div class="grid">
                     <div class="form-group">
@@ -163,9 +164,35 @@
                     </div>
                 </div>
 
-                <button type="submit" id="submit-btn" class="btn btn-primary">Salvar e Atualizar Mapa</button>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" id="submit-btn" class="btn btn-primary">Salvar e Atualizar Mapa</button>
+                    <button type="button" id="cancel-edit" class="btn" style="display:none; background: #666; color: white;">Cancelar Edição</button>
+                </div>
                 <span id="loading">Enviando para o Supabase...</span>
             </form>
+        </div>
+
+        <div class="card">
+            <div class="form-header">
+                <h3>Instituições Cadastradas</h3>
+                <input type="text" id="table-search" placeholder="Filtrar por nome ou cidade..." style="width: 250px; padding: 8px; border-radius: 6px; border: 1px solid #ddd; font-size: 12px;">
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="data-table" id="instituicoes-table">
+                    <thead>
+                        <tr>
+                            <th>Instituição</th>
+                            <th>Município</th>
+                            <th>Iniciação (T/A)</th>
+                            <th>Pré-Qualif (T/A)</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Carregado via JS -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 
@@ -179,15 +206,83 @@
         const alertBox = document.getElementById('alert');
         const submitBtn = document.getElementById('submit-btn');
         const loading = document.getElementById('loading');
+        const tableBody = document.getElementById('table-body');
+        const tableSearch = document.getElementById('table-search');
+        const cancelBtn = document.getElementById('cancel-edit');
+
+        let allData = [];
+
+        // Carregar Tabela
+        async function fetchInstituicoes() {
+            const { data, error } = await _supabase
+                .from('instituicoes_proep')
+                .select('*')
+                .order('instituicao_nome', { ascending: true });
+            
+            if (!error) {
+                allData = data;
+                renderTable(data);
+            }
+        }
+
+        function renderTable(data) {
+            tableBody.innerHTML = data.map(inst => `
+                <tr>
+                    <td><strong>${inst.instituicao_nome}</strong></td>
+                    <td>${inst.municipio}</td>
+                    <td>${inst.ini_t} / ${inst.ini_a}</td>
+                    <td>${inst.pre_t} / ${inst.pre_a}</td>
+                    <td>
+                        <button onclick="editInst('${inst.id}')" style="background: #f1f5f9; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; color: #ED1C24; font-weight: 700;">EDITAR</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Busca na tabela
+        tableSearch.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allData.filter(i => 
+                i.instituicao_nome.toLowerCase().includes(term) || 
+                i.municipio.toLowerCase().includes(term)
+            );
+            renderTable(filtered);
+        });
+
+        // Preencher formulário para edição
+        window.editInst = (id) => {
+            const inst = allData.find(i => i.id === id);
+            if (inst) {
+                document.getElementById('record_id').value = inst.id;
+                document.getElementById('instituicao_nome').value = inst.instituicao_nome;
+                document.getElementById('municipio').value = inst.municipio;
+                document.getElementById('ini_t').value = inst.ini_t;
+                document.getElementById('ini_a').value = inst.ini_a;
+                document.getElementById('pre_t').value = inst.pre_t;
+                document.getElementById('pre_a').value = inst.pre_a;
+                document.getElementById('masculino').value = inst.masculino;
+                document.getElementById('feminino').value = inst.feminino;
+                document.getElementById('di').value = inst.di;
+                document.getElementById('tea').value = inst.tea;
+                
+                submitBtn.innerText = 'Atualizar Registro';
+                cancelBtn.style.display = 'inline';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
+
+        cancelBtn.onclick = () => {
+            form.reset();
+            document.getElementById('record_id').value = '';
+            submitBtn.innerText = 'Salvar e Atualizar Mapa';
+            cancelBtn.style.display = 'none';
+        };
 
         form.onsubmit = async (e) => {
             e.preventDefault();
-            
-            // UI State
             submitBtn.disabled = true;
             loading.style.display = 'inline';
-            alertBox.style.display = 'none';
-
+            
             const formData = {
                 instituicao_nome: document.getElementById('instituicao_nome').value,
                 municipio: document.getElementById('municipio').value,
@@ -202,6 +297,9 @@
                 ultima_atualizacao: new Date().toISOString()
             };
 
+            const id = document.getElementById('record_id').value;
+            if (id) formData.id = id;
+
             try {
                 const { error } = await _supabase
                     .from('instituicoes_proep')
@@ -209,14 +307,14 @@
 
                 if (error) throw error;
 
-                // Sucesso
-                alertBox.innerText = '✓ Dados salvos com sucesso! O mapa já foi atualizado.';
+                alertBox.innerText = '✓ Registro atualizado com sucesso!';
                 alertBox.className = 'alert alert-success';
                 alertBox.style.display = 'block';
-                form.reset();
+                
+                cancelBtn.onclick(); // Reset form
+                fetchInstituicoes(); // Refresh table
 
             } catch (error) {
-                console.error('Erro:', error);
                 alertBox.innerText = 'Erro ao salvar: ' + error.message;
                 alertBox.className = 'alert alert-error';
                 alertBox.style.display = 'block';
@@ -225,6 +323,9 @@
                 loading.style.display = 'none';
             }
         };
+
+        // Iniciar
+        fetchInstituicoes();
     </script>
 </body>
 </html>
