@@ -1,331 +1,363 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claw Admin | Portal de Dados CENET</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Supabase Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <style>
-        :root {
-            --gov-red: #ED1C24;
-            --gov-black: #231F20;
-            --gov-gray: #f4f7f6;
-            --gov-white: #ffffff;
-            --gov-border: #e1e4e8;
-            --success: #398e4f;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--gov-gray); display: flex; min-height: 100vh; color: var(--gov-black); }
-        
-        aside { width: 280px; background: var(--gov-black); color: white; padding: 30px 20px; flex-shrink: 0; }
-        .logo-box { padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px; text-align: center; }
-        .logo-box h2 { font-size: 1.2rem; color: var(--gov-red); letter-spacing: 2px; }
-        
-        nav ul { list-style: none; }
-        nav li { margin-bottom: 10px; }
-        nav a { color: #aaa; text-decoration: none; font-size: 13px; display: block; padding: 12px 15px; border-radius: 6px; transition: 0.3s; }
-        nav a:hover, nav a.active { background: rgba(237, 28, 36, 0.1); color: var(--gov-red); }
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Claw Admin | Portal de Dados CENET</title>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+ <!-- Supabase Library -->
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+ <style>
+ :root {
+ --gov-red: #ED1C24;
+ --gov-black: #231F20;
+ --gov-gray: #f4f7f6;
+ --gov-white: #ffffff;
+ --gov-border: #e1e4e8;
+ --success: #398e4f;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: 'Inter', sans-serif; background: var(--gov-gray); display: flex; min-height: 100vh; color: var(--gov-black); }
+ 
+ aside { width: 280px; background: var(--gov-black); color: white; padding: 30px 20px; flex-shrink: 0; }
+ .logo-box { padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px; text-align: center; }
+ .logo-box h2 { font-size: 1.2rem; color: var(--gov-red); letter-spacing: 2px; }
+ 
+ nav ul { list-style: none; }
+ nav li { margin-bottom: 10px; }
+ nav a { color: #aaa; text-decoration: none; font-size: 13px; display: block; padding: 12px 15px; border-radius: 6px; transition: 0.3s; }
+ nav a:hover, nav a.active { background: rgba(237, 28, 36, 0.1); color: var(--gov-red); }
 
-        main { flex: 1; padding: 40px; overflow-y: auto; }
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-        h1 { font-size: 24px; color: var(--gov-black); }
+ main { flex: 1; padding: 40px; overflow-y: auto; }
+ header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+ h1 { font-size: 24px; color: var(--gov-black); }
 
-        /* Responsividade Admin */
-        @media (max-width: 992px) {
-            body { flex-direction: column; }
-            aside { width: 100%; padding: 20px; }
-            main { padding: 20px; }
-            .grid { grid-template-columns: 1fr; }
-            header { flex-direction: column; text-align: center; gap: 10px; }
-            .card { padding: 20px; }
-        }
-        
-        .card { background: white; padding: 30px; border-radius: 12px; border: 1px solid var(--gov-border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 30px; }
-        .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        
-        .section-title { font-size: 11px; text-transform: uppercase; color: var(--gov-red); fontWeight: 800; letter-spacing: 1px; margin-bottom: 20px; display: block; }
-        
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
-        .form-group { display: flex; flexDirection: column; margin-bottom: 15px; }
-        label { font-size: 11px; font-weight: 700; color: #666; margin-bottom: 8px; text-transform: uppercase; }
-        input, select { padding: 12px; border-radius: 6px; border: 1px solid #ddd; font-size: 14px; width: 100%; }
-        input:focus { border-color: var(--gov-red); outline: none; box-shadow: 0 0 0 2px rgba(237, 28, 36, 0.1); }
+ /* Responsividade Admin */
+ @media (max-width: 992px) {
+ body { flex-direction: column; }
+ aside { width: 100%; padding: 20px; }
+ main { padding: 20px; }
+ .grid { grid-template-columns: 1fr; }
+ header { flex-direction: column; text-align: center; gap: 10px; }
+ .card { padding: 20px; }
+ }
+ 
+ .card { background: white; padding: 30px; border-radius: 12px; border: 1px solid var(--gov-border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 30px; }
+ .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+ 
+ .section-title { font-size: 11px; text-transform: uppercase; color: var(--gov-red); font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; display: block; }
+ 
+ .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+ .grid-quad { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+ .form-group { display: flex; flex-direction: column; margin-bottom: 15px; }
+ label { font-size: 11px; font-weight: 700; color: #666; margin-bottom: 8px; text-transform: uppercase; }
+ input, select { padding: 12px; border-radius: 6px; border: 1px solid #ddd; font-size: 14px; width: 100%; }
+ input:focus { border-color: var(--gov-red); outline: none; box-shadow: 0 0 0 2px rgba(237, 28, 36, 0.1); }
 
-        .btn { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-primary { background: var(--gov-red); color: white; width: 100%; margin-top: 10px; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(237, 28, 36, 0.2); }
-        .btn-primary:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+ .btn { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+ .btn-primary { background: var(--gov-red); color: white; width: 100%; margin-top: 10px; }
+ .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(237, 28, 36, 0.2); }
+ .btn-primary:disabled { background: #ccc; cursor: not-allowed; transform: none; }
 
-        .status-badge { font-size: 10px; padding: 4px 8px; border-radius: 20px; font-weight: 700; text-transform: uppercase; }
-        .status-sync { background: #e7f5ed; color: var(--success); }
+ .status-badge { font-size: 10px; padding: 4px 8px; border-radius: 20px; font-weight: 700; text-transform: uppercase; }
+ .status-sync { background: #e7f5ed; color: var(--success); }
 
-        .alert { padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; font-size: 14px; }
-        .alert-success { background: #e7f5ed; color: var(--success); border: 1px solid #c2e7d0; }
-        .alert-error { background: #fdeaea; color: #c0392b; border: 1px solid #f5c6cb; }
+ .alert { padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; font-size: 14px; }
+ .alert-success { background: #e7f5ed; color: var(--success); border: 1px solid #c2e7d0; }
+ .alert-error { background: #fdeaea; color: #c0392b; border: 1px solid #f5c6cb; }
 
-        #loading { display: none; margin-left: 10px; font-size: 12px; color: #666; }
-    </style>
+ #loading { display: none; margin-left: 10px; font-size: 12px; color: #666; }
+ </style>
 </head>
 <body>
 
-    <aside>
-        <div class="logo-box">
-            <h2>FCEE | CENET</h2>
-            <p style="font-size: 10px; opacity: 0.5; margin-top: 5px;">Sistema de Gestão PROEP</p>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#" class="active">Inserir Dados</a></li>
-                <li><a href="index.html">Ver Mapa Público</a></li>
-                <li><a href="#">Gerenciar Instituições</a></li>
-                <li><a href="#">Configurações</a></li>
-            </ul>
-        </nav>
-    </aside>
+ <aside>
+ <div class="logo-box">
+ <h2>FCEE | CENET</h2>
+ <p style="font-size: 10px; opacity: 0.5; margin-top: 5px;">Sistema de Gestão PROEP</p>
+ </div>
+ <nav>
+ <ul>
+ <li><a href="#" class="active">Inserir Dados</a></li>
+ <li><a href="index.html">Ver Mapa Público</a></li>
+ <li><a href="#">Gerenciar Instituições</a></li>
+ <li><a href="#">Configurações</a></li>
+ </ul>
+ </nav>
+ </aside>
 
-    <main>
-        <header>
-            <h1>Portal de Atualização</h1>
-            <div style="font-size: 12px; color: #777;">Operador: Higor . 12 de Março, 2026</div>
-        </header>
+ <main>
+ <header>
+ <h1>Portal de Atualização</h1>
+ <div style="font-size: 12px; color: #777;">Operador: Higor . 12 de Março, 2026</div>
+ </header>
 
-        <div id="alert" class="alert"></div>
+ <div id="alert" class="alert"></div>
 
-        <div class="card">
-            <div class="form-header">
-                <h3>Dados da Instituição</h3>
-                <span class="status-badge status-sync">Conectado ao Supabase</span>
-            </div>
+ <div class="card">
+ <div class="form-header">
+ <h3>Dados da Instituição</h3>
+ <span class="status-badge status-sync">Conectado ao Supabase</span>
+ </div>
 
-            <form id="proep-form">
-                <input type="hidden" id="record_id">
-                <span class="section-title">1. Identificação</span>
-                <div class="grid">
-                    <div class="form-group">
-                        <label>Nome da Instituição</label>
-                        <input type="text" id="instituicao_nome" required placeholder="Ex: APAE de Florianópolis">
-                    </div>
-                    <div class="form-group">
-                        <label>Município</label>
-                        <input type="text" id="municipio" required placeholder="Ex: Florianópolis">
-                    </div>
-                </div>
+ <form id="proep-form">
+ <input type="hidden" id="record_id">
+ <span class="section-title">1. Identificação</span>
+ <div class="grid">
+ <div class="form-group">
+ <label>Nome da Instituição</label>
+ <input type="text" id="instituicao_nome" required placeholder="Ex: APAE de Florianópolis">
+ </div>
+ <div class="form-group">
+ <label>Município</label>
+ <input type="text" id="municipio" required placeholder="Ex: Florianópolis">
+ </div>
+ </div>
 
-                <span class="section-title">2. Turmas e Aprendizes</span>
-                <div class="grid">
-                    <div style="background: #fcfdeb; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                        <label style="color: #231F20; font-weight: 800; margin-bottom: 15px; display: block;">Iniciação</label>
-                        <div style="display: flex; gap: 15px;">
-                            <div class="form-group" style="flex: 1;">
-                                <label>Turmas</label>
-                                <input type="number" id="ini_t" value="0">
-                            </div>
-                            <div class="form-group" style="flex: 1;">
-                                <label>Aprendizes</label>
-                                <input type="number" id="ini_a" value="0">
-                            </div>
-                        </div>
-                    </div>
-                    <div style="background: #f0f9f1; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                        <label style="color: #231F20; font-weight: 800; margin-bottom: 15px; display: block;">Pré-Qualificação</label>
-                        <div style="display: flex; gap: 15px;">
-                            <div class="form-group" style="flex: 1;">
-                                <label>Turmas</label>
-                                <input type="number" id="pre_t" value="0">
-                            </div>
-                            <div class="form-group" style="flex: 1;">
-                                <label>Aprendizes</label>
-                                <input type="number" id="pre_a" value="0">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+ <span class="section-title">2. Turmas e Aprendizes</span>
+ <div class="grid">
+ <div style="background: #fcfdeb; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+ <label style="color: #231F20; font-weight: 800; margin-bottom: 15px; display: block;">Iniciação</label>
+ <div style="display: flex; gap: 15px;">
+ <div class="form-group" style="flex: 1;">
+ <label>Turmas</label>
+ <input type="number" id="ini_t" value="0">
+ </div>
+ <div class="form-group" style="flex: 1;">
+ <label>Aprendizes</label>
+ <input type="number" id="ini_a" value="0">
+ </div>
+ </div>
+ </div>
+ <div style="background: #f0f9f1; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+ <label style="color: #231F20; font-weight: 800; margin-bottom: 15px; display: block;">Pré-Qualificação</label>
+ <div style="display: flex; gap: 15px;">
+ <div class="form-group" style="flex: 1;">
+ <label>Turmas</label>
+ <input type="number" id="pre_t" value="0">
+ </div>
+ <div class="form-group" style="flex: 1;">
+ <label>Aprendizes</label>
+ <input type="number" id="pre_a" value="0">
+ </div>
+ </div>
+ </div>
+ </div>
 
-                <span class="section-title">3. Perfil (Consolidado)</span>
-                <div class="grid">
-                    <div class="form-group">
-                        <label>Masc.</label>
-                        <input type="number" id="masculino" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label>Fem.</label>
-                        <input type="number" id="feminino" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label>Deficiência: DI</label>
-                        <input type="number" id="di" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label>Deficiência: TEA</label>
-                        <input type="number" id="tea" value="0">
-                    </div>
-                </div>
+ <span class="section-title">3. Perfil (Gênero e Deficiência)</span>
+ <div class="grid-quad">
+ <div class="form-group">
+ <label>Masc.</label>
+ <input type="number" id="masculino" value="0">
+ </div>
+ <div class="form-group">
+ <label>Fem.</label>
+ <input type="number" id="feminino" value="0">
+ </div>
+ <div class="form-group">
+ <label>Deficiência: DI</label>
+ <input type="number" id="di" value="0">
+ </div>
+ <div class="form-group">
+ <label>Deficiência: TEA</label>
+ <input type="number" id="tea" value="0">
+ </div>
+ </div>
 
-                <div style="display: flex; gap: 10px;">
-                    <button type="submit" id="submit-btn" class="btn btn-primary">Salvar e Atualizar Mapa</button>
-                    <button type="button" id="cancel-edit" class="btn" style="display:none; background: #666; color: white;">Cancelar Edição</button>
-                </div>
-                <span id="loading">Enviando para o Supabase...</span>
-            </form>
-        </div>
+ <span class="section-title">4. Escolaridade (Consolidado)</span>
+ <div class="grid-quad">
+ <div class="form-group">
+ <label>Fund. Incompleto</label>
+ <input type="number" id="fund_inc" value="0">
+ </div>
+ <div class="form-group">
+ <label>Fund. Completo</label>
+ <input type="number" id="fund_comp" value="0">
+ </div>
+ <div class="form-group">
+ <label>Médio Incompleto</label>
+ <input type="number" id="medio_inc" value="0">
+ </div>
+ <div class="form-group">
+ <label>Médio Completo</label>
+ <input type="number" id="medio_comp" value="0">
+ </div>
+ </div>
 
-        <div class="card">
-            <div class="form-header">
-                <h3>Instituições Cadastradas</h3>
-                <input type="text" id="table-search" placeholder="Filtrar por nome ou cidade..." style="width: 250px; padding: 8px; border-radius: 6px; border: 1px solid #ddd; font-size: 12px;">
-            </div>
-            <div style="overflow-x: auto;">
-                <table class="data-table" id="instituicoes-table">
-                    <thead>
-                        <tr>
-                            <th>Instituição</th>
-                            <th>Município</th>
-                            <th>Iniciação (T/A)</th>
-                            <th>Pré-Qualif (T/A)</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <!-- Carregado via JS -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
+ <div style="display: flex; gap: 10px;">
+ <button type="submit" id="submit-btn" class="btn btn-primary">Salvar e Atualizar Mapa</button>
+ <button type="button" id="cancel-edit" class="btn" style="display:none; background: #666; color: white;">Cancelar Edição</button>
+ </div>
+ <span id="loading">Enviando para o Supabase...</span>
+ </form>
+ </div>
 
-    <script>
-        // Configuração Supabase
-        const SUPABASE_URL = 'https://blzzetfruubfadmllgws.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsenpldGZydXViZmFkbWxsZ3dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzgxMjgsImV4cCI6MjA4ODkxNDEyOH0.ZBIkHOkm96G3_9mxin6CxvoJ2Hk8KdfzpGUEzEKR704';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+ <div class="card">
+ <div class="form-header">
+ <h3>Instituições Cadastradas</h3>
+ <input type="text" id="table-search" placeholder="Filtrar por nome ou cidade..." style="width: 250px; padding: 8px; border-radius: 6px; border: 1px solid #ddd; font-size: 12px;">
+ </div>
+ <div style="overflow-x: auto;">
+ <table class="data-table" id="instituicoes-table">
+ <thead>
+ <tr>
+ <th>Instituição</th>
+ <th>Município</th>
+ <th>Iniciação (T/A)</th>
+ <th>Pré-Qualif (T/A)</th>
+ <th>Ações</th>
+ </tr>
+ </thead>
+ <tbody id="table-body">
+ <!-- Carregado via JS -->
+ </tbody>
+ </table>
+ </div>
+ </div>
+ </main>
 
-        const form = document.getElementById('proep-form');
-        const alertBox = document.getElementById('alert');
-        const submitBtn = document.getElementById('submit-btn');
-        const loading = document.getElementById('loading');
-        const tableBody = document.getElementById('table-body');
-        const tableSearch = document.getElementById('table-search');
-        const cancelBtn = document.getElementById('cancel-edit');
+ <script>
+ // Configuração Supabase
+ const SUPABASE_URL = 'https://blzzetfruubfadmllgws.supabase.co';
+ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsenpldGZydXViZmFkbWxsZ3dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzgxMjgsImV4cCI6MjA4ODkxNDEyOH0.ZBIkHOkm96G3_9mxin6CxvoJ2Hk8KdfzpGUEzEKR704';
+ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        let allData = [];
+ const form = document.getElementById('proep-form');
+ const alertBox = document.getElementById('alert');
+ const submitBtn = document.getElementById('submit-btn');
+ const loading = document.getElementById('loading');
+ const tableBody = document.getElementById('table-body');
+ const tableSearch = document.getElementById('table-search');
+ const cancelBtn = document.getElementById('cancel-edit');
 
-        // Carregar Tabela
-        async function fetchInstituicoes() {
-            const { data, error } = await _supabase
-                .from('instituicoes_proep')
-                .select('*')
-                .order('instituicao_nome', { ascending: true });
-            
-            if (!error) {
-                allData = data;
-                renderTable(data);
-            }
-        }
+ let allData = [];
 
-        function renderTable(data) {
-            tableBody.innerHTML = data.map(inst => `
-                <tr>
-                    <td><strong>${inst.instituicao_nome}</strong></td>
-                    <td>${inst.municipio}</td>
-                    <td>${inst.ini_t} / ${inst.ini_a}</td>
-                    <td>${inst.pre_t} / ${inst.pre_a}</td>
-                    <td>
-                        <button onclick="editInst('${inst.id}')" style="background: #f1f5f9; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; color: #ED1C24; font-weight: 700;">EDITAR</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
+ // Carregar Tabela
+ async function fetchInstituicoes() {
+ const { data, error } = await _supabase
+ .from('instituicoes_proep')
+ .select('*')
+ .order('instituicao_nome', { ascending: true });
+ 
+ if (!error) {
+ allData = data;
+ renderTable(data);
+ }
+ }
 
-        // Busca na tabela
-        tableSearch.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = allData.filter(i => 
-                i.instituicao_nome.toLowerCase().includes(term) || 
-                i.municipio.toLowerCase().includes(term)
-            );
-            renderTable(filtered);
-        });
+ function renderTable(data) {
+ tableBody.innerHTML = data.map(inst => `
+ <tr>
+ <td><strong>${inst.instituicao_nome}</strong></td>
+ <td>${inst.municipio}</td>
+ <td>${inst.ini_t} / ${inst.ini_a}</td>
+ <td>${inst.pre_t} / ${inst.pre_a}</td>
+ <td>
+ <button onclick="editInst('${inst.id}')" style="background: #f1f5f9; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; color: #ED1C24; font-weight: 700;">EDITAR</button>
+ </td>
+ </tr>
+ `).join('');
+ }
 
-        // Preencher formulário para edição
-        window.editInst = (id) => {
-            const inst = allData.find(i => i.id === id);
-            if (inst) {
-                document.getElementById('record_id').value = inst.id;
-                document.getElementById('instituicao_nome').value = inst.instituicao_nome;
-                document.getElementById('municipio').value = inst.municipio;
-                document.getElementById('ini_t').value = inst.ini_t;
-                document.getElementById('ini_a').value = inst.ini_a;
-                document.getElementById('pre_t').value = inst.pre_t;
-                document.getElementById('pre_a').value = inst.pre_a;
-                document.getElementById('masculino').value = inst.masculino;
-                document.getElementById('feminino').value = inst.feminino;
-                document.getElementById('di').value = inst.di;
-                document.getElementById('tea').value = inst.tea;
-                
-                submitBtn.innerText = 'Atualizar Registro';
-                cancelBtn.style.display = 'inline';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        };
+ // Busca na tabela
+ tableSearch.addEventListener('input', (e) => {
+ const term = e.target.value.toLowerCase();
+ const filtered = allData.filter(i => 
+ i.instituicao_nome.toLowerCase().includes(term) || 
+ i.municipio.toLowerCase().includes(term)
+ );
+ renderTable(filtered);
+ });
 
-        cancelBtn.onclick = () => {
-            form.reset();
-            document.getElementById('record_id').value = '';
-            submitBtn.innerText = 'Salvar e Atualizar Mapa';
-            cancelBtn.style.display = 'none';
-        };
+ // Preencher formulário para edição
+ window.editInst = (id) => {
+ const inst = allData.find(i => i.id === id);
+ if (inst) {
+ document.getElementById('record_id').value = inst.id;
+ document.getElementById('instituicao_nome').value = inst.instituicao_nome;
+ document.getElementById('municipio').value = inst.municipio;
+ document.getElementById('ini_t').value = inst.ini_t;
+ document.getElementById('ini_a').value = inst.ini_a;
+ document.getElementById('pre_t').value = inst.pre_t;
+ document.getElementById('pre_a').value = inst.pre_a;
+ document.getElementById('masculino').value = inst.masculino;
+ document.getElementById('feminino').value = inst.feminino;
+ document.getElementById('di').value = inst.di;
+ document.getElementById('tea').value = inst.tea;
+ 
+ // Campos de escolaridade
+ document.getElementById('fund_inc').value = inst.fund_inc || 0;
+ document.getElementById('fund_comp').value = inst.fund_comp || 0;
+ document.getElementById('medio_inc').value = inst.medio_inc || 0;
+ document.getElementById('medio_comp').value = inst.medio_comp || 0;
+ 
+ submitBtn.innerText = 'Atualizar Registro';
+ cancelBtn.style.display = 'inline';
+ window.scrollTo({ top: 0, behavior: 'smooth' });
+ }
+ };
 
-        form.onsubmit = async (e) => {
-            e.preventDefault();
-            submitBtn.disabled = true;
-            loading.style.display = 'inline';
-            
-            const formData = {
-                instituicao_nome: document.getElementById('instituicao_nome').value,
-                municipio: document.getElementById('municipio').value,
-                ini_t: parseInt(document.getElementById('ini_t').value) || 0,
-                ini_a: parseInt(document.getElementById('ini_a').value) || 0,
-                pre_t: parseInt(document.getElementById('pre_t').value) || 0,
-                pre_a: parseInt(document.getElementById('pre_a').value) || 0,
-                masculino: parseInt(document.getElementById('masculino').value) || 0,
-                feminino: parseInt(document.getElementById('feminino').value) || 0,
-                di: parseInt(document.getElementById('di').value) || 0,
-                tea: parseInt(document.getElementById('tea').value) || 0,
-                ultima_atualizacao: new Date().toISOString()
-            };
+ cancelBtn.onclick = () => {
+ form.reset();
+ document.getElementById('record_id').value = '';
+ submitBtn.innerText = 'Salvar e Atualizar Mapa';
+ cancelBtn.style.display = 'none';
+ };
 
-            const id = document.getElementById('record_id').value;
-            if (id) formData.id = id;
+ form.onsubmit = async (e) => {
+ e.preventDefault();
+ submitBtn.disabled = true;
+ loading.style.display = 'inline';
+ 
+ const formData = {
+ instituicao_nome: document.getElementById('instituicao_nome').value,
+ municipio: document.getElementById('municipio').value,
+ ini_t: parseInt(document.getElementById('ini_t').value) || 0,
+ ini_a: parseInt(document.getElementById('ini_a').value) || 0,
+ pre_t: parseInt(document.getElementById('pre_t').value) || 0,
+ pre_a: parseInt(document.getElementById('pre_a').value) || 0,
+ masculino: parseInt(document.getElementById('masculino').value) || 0,
+ feminino: parseInt(document.getElementById('feminino').value) || 0,
+ di: parseInt(document.getElementById('di').value) || 0,
+ tea: parseInt(document.getElementById('tea').value) || 0,
+ // Novos campos de escolaridade
+ fund_inc: parseInt(document.getElementById('fund_inc').value) || 0,
+ fund_comp: parseInt(document.getElementById('fund_comp').value) || 0,
+ medio_inc: parseInt(document.getElementById('medio_inc').value) || 0,
+ medio_comp: parseInt(document.getElementById('medio_comp').value) || 0,
+ ultima_atualizacao: new Date().toISOString()
+ };
 
-            try {
-                const { error } = await _supabase
-                    .from('instituicoes_proep')
-                    .upsert([formData], { onConflict: 'instituicao_nome' });
+ const id = document.getElementById('record_id').value;
+ if (id) formData.id = id;
 
-                if (error) throw error;
+ try {
+ const { error } = await _supabase
+ .from('instituicoes_proep')
+ .upsert([formData], { onConflict: 'instituicao_nome' });
 
-                alertBox.innerText = '✓ Registro atualizado com sucesso!';
-                alertBox.className = 'alert alert-success';
-                alertBox.style.display = 'block';
-                
-                cancelBtn.onclick(); // Reset form
-                fetchInstituicoes(); // Refresh table
+ if (error) throw error;
 
-            } catch (error) {
-                alertBox.innerText = 'Erro ao salvar: ' + error.message;
-                alertBox.className = 'alert alert-error';
-                alertBox.style.display = 'block';
-            } finally {
-                submitBtn.disabled = false;
-                loading.style.display = 'none';
-            }
-        };
+ alertBox.innerText = '✓ Registro atualizado com sucesso!';
+ alertBox.className = 'alert alert-success';
+ alertBox.style.display = 'block';
+ 
+ cancelBtn.onclick(); // Reset form
+ fetchInstituicoes(); // Refresh table
 
-        // Iniciar
-        fetchInstituicoes();
-    </script>
+ } catch (error) {
+ alertBox.innerText = 'Erro ao salvar: ' + error.message;
+ alertBox.className = 'alert alert-error';
+ alertBox.style.display = 'block';
+ } finally {
+ submitBtn.disabled = false;
+ loading.style.display = 'none';
+ }
+ };
+
+ // Iniciar
+ fetchInstituicoes();
+ </script>
 </body>
 </html>
