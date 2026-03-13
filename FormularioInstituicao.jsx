@@ -128,7 +128,7 @@ const FormularioInstituicao = () => {
               <input type="number" name="feminino" onChange={handleChange} style={styles.input} />
             </div>
             <div style={styles.group}>
-              <label style={styles.label}>Deficiência: TDI</label>
+              <label style={styles.label}>Deficiência: DI</label>
               <input type="number" name="di" onChange={handleChange} style={styles.input} />
             </div>
             <div style={styles.group}>
