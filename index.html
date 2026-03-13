@@ -29,7 +29,6 @@
             overflow: hidden; 
             color: var(--gov-black);
         }
-        
         header { 
             background: var(--gov-white); 
             color: var(--gov-black); 
@@ -45,9 +44,7 @@
         .header-title { text-align: right; }
         header h1 { margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--gov-black); letter-spacing: -0.02em; }
         header p { margin: 0; font-size: 0.85rem; color: var(--gov-red); font-weight: 700; text-transform: uppercase; }
-
         #main-container { display: flex; flex: 1; overflow: hidden; }
-        
         #sidebar { 
             width: 400px; 
             background: var(--gov-white); 
@@ -61,11 +58,8 @@
             z-index: 1002;
             transition: transform 0.3s ease;
         }
-
         #map-container { flex: 1; position: relative; background: #e5e5e5; }
         #map { height: 100%; width: 100%; }
-
-        /* Responsividade Mobile */
         @media (max-width: 992px) {
             body { overflow: auto; height: auto; }
             header { padding: 0.5rem 1rem; flex-direction: column; text-align: center; gap: 10px; }
@@ -76,7 +70,6 @@
             .info-window { width: 90%; right: 5%; top: 10px; }
             .search-container { width: calc(100% - 40px); left: 20px; top: 10px; }
         }
-
         .card { 
             background: var(--gov-white); 
             border-radius: 8px; 
@@ -87,7 +80,6 @@
         }
         .card-fixed { border-top-color: var(--gov-red); }
         .card-charts { border-top-color: var(--gov-green-dark); }
-        
         h2 { 
             margin: 0 0 1rem 0; 
             font-size: 0.9rem; 
@@ -99,46 +91,14 @@
             align-items: center;
             gap: 8px;
         }
-        
-        .stat-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            margin-bottom: 12px; 
-        }
-        .stat-box { 
-            text-align: center; 
-            padding: 1rem; 
-            background: #f8fafc; 
-            border: 1px solid var(--gov-border); 
-            border-radius: 6px; 
-        }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .stat-box { text-align: center; padding: 1rem; background: #f8fafc; border: 1px solid var(--gov-border); border-radius: 6px; }
         .stat-val { display: block; font-size: 1.75rem; font-weight: 800; color: var(--gov-red); line-height: 1; margin-bottom: 4px; }
         .stat-lab { font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.025em; }
-
-        .edu-container {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px dashed var(--gov-border);
-        }
-        .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .edu-card { background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid var(--gov-border); }
-        .edu-card-title { font-size: 0.7rem; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; }
-        .edu-item { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 4px; color: #475569; }
-        .edu-item strong { color: var(--gov-black); }
-
         .chart-box { height: 160px; margin-bottom: 2rem; position: relative; }
-        .chart-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid #f1f5f9;
-        }
+        .chart-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid #f1f5f9; }
         .chart-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gov-red); }
         .chart-title-text { font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
-
         .info-window { 
             position: absolute; top: 20px; right: 20px; width: 340px; 
             background: var(--gov-white); 
@@ -154,89 +114,24 @@
         .info-body { padding: 1.25rem; }
         .close-info { position: absolute; top: 0.75rem; right: 1rem; cursor: pointer; font-size: 1.5rem; opacity: 0.7; transition: opacity 0.2s; }
         .close-info:hover { opacity: 1; }
-        
         .prog-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; }
         .badge-ini { background: var(--gov-yellow); color: #000; }
         .badge-pre { background: var(--gov-green-dark); color: #fff; }
-        
         .inst-list { list-style: none; padding: 0; margin: 0; }
-        .inst-item { 
-            padding: 10px 12px; 
-            border-bottom: 1px solid #f1f5f9; 
-            cursor: pointer; 
-            font-size: 0.85rem; 
-            transition: all 0.2s;
-            border-radius: 4px;
-        }
+        .inst-item { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; border-radius: 4px; }
         .inst-item:hover { background: #f8fafc; color: var(--gov-red); font-weight: 600; padding-left: 16px; }
-
-        #legend { 
-            position: absolute; bottom: 30px; left: 30px; 
-            background: var(--gov-white); 
-            padding: 12px 16px; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
-            z-index: 1000; 
-            font-size: 0.8rem;
-            border: 1px solid var(--gov-border);
-        }
+        #legend { position: absolute; bottom: 30px; left: 30px; background: var(--gov-white); padding: 12px 16px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); z-index: 1000; font-size: 0.8rem; border: 1px solid var(--gov-border); }
         .marker-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--gov-red); margin-right: 8px; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--gov-red); }
-
-        /* Busca Interativa */
-        .search-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            width: 280px;
-        }
-        .search-input {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid var(--gov-border);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            outline: none;
-        }
-        .search-input:focus {
-            border-color: var(--gov-red);
-        }
-        .search-results {
-            background: white;
-            border-radius: 8px;
-            margin-top: 5px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-        .search-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .search-item:hover {
-            background: #f8fafc;
-            color: var(--gov-red);
-        }
-
-        .mun-tooltip {
-            background: rgba(35, 31, 32, 0.9) !important;
-            border: none !important;
-            color: white !important;
-            font-weight: 600 !important;
-            font-size: 10px !important;
-            padding: 4px 8px !important;
-            border-radius: 4px !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-        }
+        .search-container { position: absolute; top: 20px; left: 20px; z-index: 1000; width: 280px; }
+        .search-input { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--gov-border); box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none; }
+        .search-input:focus { border-color: var(--gov-red); }
+        .search-results { background: white; border-radius: 8px; margin-top: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; display: none; }
+        .search-item { padding: 10px 15px; cursor: pointer; font-size: 0.8rem; border-bottom: 1px solid #f1f5f9; }
+        .search-item:hover { background: #f8fafc; color: var(--gov-red); }
+        .mun-tooltip { background: rgba(35, 31, 32, 0.9) !important; border: none !important; color: white !important; font-weight: 600 !important; font-size: 10px !important; padding: 4px 8px !important; border-radius: 4px !important; box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important; }
     </style>
 </head>
 <body>
-
 <header>
     <img src="logo_fcee.png" alt="Logo FCEE" class="header-logo">
     <div class="header-title">
@@ -244,265 +139,104 @@
         <p>GOVERNO DE SANTA CATARINA</p>
     </div>
 </header>
-
 <div id="main-container">
     <div id="sidebar">
         <div class="card card-fixed">
             <h2>Consolidado Geral CENET</h2>
             <div class="stat-grid">
-                <div class="stat-box">
-                    <span class="stat-val">0</span>
-                    <span class="stat-lab">Instituições</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-val">0</span>
-                    <span class="stat-lab">Municípios</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-val" id="total-aprendizes-geral">0</span>
-                    <span class="stat-lab">Aprendizes</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-val" id="total-turmas-geral">0</span>
-                    <span class="stat-lab">Turmas</span>
-                </div>
-            </div>
-            
-            <div class="edu-container">
-                <h2>Escolaridade por Programa</h2>
-                <div class="edu-grid">
-                    <div class="edu-card">
-                        <div class="edu-card-title" style="color: var(--gov-red);">Iniciação</div>
-                        <div class="edu-item">Fund: <strong>410</strong></div>
-                        <div class="edu-item">Médio Curs: <strong>120</strong></div>
-                        <div class="edu-item">Médio Comp: <strong>90</strong></div>
-                    </div>
-                    <div class="edu-card">
-                        <div class="edu-card-title" style="color: var(--gov-green-dark);">Pré-Qualif.</div>
-                        <div class="edu-item">Fund: <strong>690</strong></div>
-                        <div class="edu-item">Médio Curs: <strong>320</strong></div>
-                        <div class="edu-item">Médio Comp: <strong>210</strong></div>
-                    </div>
-                </div>
+                <div class="stat-box"><span class="stat-val">0</span><span class="stat-lab">Instituições</span></div>
+                <div class="stat-box"><span class="stat-val">0</span><span class="stat-lab">Municípios</span></div>
+                <div class="stat-box"><span class="stat-val" id="total-aprendizes-geral">0</span><span class="stat-lab">Aprendizes</span></div>
+                <div class="stat-box"><span class="stat-val" id="total-turmas-geral">0</span><span class="stat-lab">Turmas</span></div>
             </div>
         </div>
-
         <div class="card card-charts">
             <h2>Perfil dos Aprendizes</h2>
             <div class="chart-box">
-                <div class="chart-header">
-                    <div class="chart-dot"></div>
-                    <div class="chart-title-text">Gênero</div>
-                </div>
+                <div class="chart-header"><div class="chart-dot"></div><div class="chart-title-text">Gênero</div></div>
                 <canvas id="sexChart"></canvas>
             </div>
             <div class="chart-box">
-                <div class="chart-header">
-                    <div class="chart-dot"></div>
-                    <div class="chart-title-text">Faixa Etária</div>
-                </div>
+                <div class="chart-header"><div class="chart-dot"></div><div class="chart-title-text">Faixa Etária</div></div>
                 <canvas id="ageChart"></canvas>
             </div>
             <div class="chart-box">
-                <div class="chart-header">
-                    <div class="chart-dot"></div>
-                    <div class="chart-title-text">Deficiência</div>
-                </div>
+                <div class="chart-header"><div class="chart-dot"></div><div class="chart-title-text">Deficiência</div></div>
                 <canvas id="defChart"></canvas>
             </div>
             <div class="chart-box">
-                <div class="chart-header">
-                    <div class="chart-dot"></div>
-                    <div class="chart-title-text">Escolaridade</div>
-                </div>
+                <div class="chart-header"><div class="chart-dot"></div><div class="chart-title-text">Escolaridade</div></div>
                 <canvas id="escChart"></canvas>
             </div>
         </div>
     </div>
-
     <div id="map-container">
         <div id="map"></div>
         <div class="search-container">
             <input type="text" id="map-search" class="search-input" placeholder="Buscar município ou instituição...">
             <div id="search-results" class="search-results"></div>
         </div>
-        
         <div id="info-window" class="info-window">
-            <div class="info-header">
-                <span class="close-info" onclick="closeInfo()">&times;</span>
-                <h3 id="info-city-name">Município</h3>
-            </div>
+            <div class="info-header"><span class="close-info" onclick="closeInfo()">&times;</span><h3 id="info-city-name">Município</h3></div>
             <div class="info-body">
-                <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px; font-weight: 500;">Selecione uma instituição para ver detalhes:</p>
                 <ul id="inst-list" class="inst-list"></ul>
                 <div id="inst-detail" style="display:none; margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
                     <h4 id="detail-name" style="margin: 0 0 12px 0; color: var(--gov-red); font-size: 1rem; font-weight: 700;">Nome Instituição</h4>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
                         <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <span class="prog-badge badge-ini">Iniciação</span>
-                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
-                                <span>Turmas: <strong id="val-ini-t">0</strong></span>
-                                <span>Aprendizes: <strong id="val-ini-a">0</strong></span>
-                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem;"><span>Turmas: <strong id="val-ini-t">0</strong></span><span>Aprendizes: <strong id="val-ini-a">0</strong></span></div>
                         </div>
                         <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <span class="prog-badge badge-pre">Pré-Qualificação</span>
-                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
-                                <span>Turmas: <strong id="val-pre-t">0</strong></span>
-                                <span>Aprendizes: <strong id="val-pre-a">0</strong></span>
-                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem;"><span>Turmas: <strong id="val-pre-t">0</strong></span><span>Aprendizes: <strong id="val-pre-a">0</strong></span></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div id="legend">
             <div style="font-weight: 700; margin-bottom: 6px; color: var(--gov-black);">Instituições CENET</div>
-            <div style="display: flex; align-items: center; gap: 4px; color: #475569;">
-                <span class="marker-dot"></span> 
-                <span>Município Atendido</span>
-            </div>
+            <div style="display: flex; align-items: center; gap: 4px; color: #475569;"><span class="marker-dot"></span><span>Município Atendido</span></div>
         </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
     Chart.defaults.font.size = 11;
     Chart.defaults.font.family = "'Inter', sans-serif";
     Chart.defaults.color = '#475569';
-
     const SUPABASE_URL = 'https://blzzetfruubfadmllgws.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsenpldGZydXViZmFkbWxsZ3dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzgxMjgsImV4cCI6MjA4ODkxNDEyOH0.ZBIkHOkm96G3_9mxin6CxvoJ2Hk8KdfzpGUEzEKR704';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    let proepData = {};
-    let charts = {};
-    let heatLayer = null;
-
-    const cityCoords = {
-        "FLORIANÓPOLIS": [-27.5945, -48.5477], "SÃO JOSÉ": [-27.6136, -48.6366], "PALHOÇA": [-27.6430, -48.6650],
-        "XANXERÊ": [-26.8747, -52.4036], "CHAPECÓ": [-27.1000, -52.6150], "SÃO MIGUEL DO OESTE": [-26.7239, -53.5186],
-        "ITAJAÍ": [-26.9078, -48.6619], "GRÃO-PARÁ": [-28.1833, -49.2167], "DESCANSO": [-26.8272, -53.5067],
-        "GUARACIABA": [-26.5986, -53.5175], "MARAVILHA": [-26.7600, -53.1700], "MODELO": [-26.7800, -53.0500],
-        "ROMELÂNDIA": [-26.6800, -53.3200], "IRACEMINHA": [-26.8300, -53.3000], "QUILOMBO": [-26.7300, -52.7300],
-        "PINHALZINHO": [-26.8500, -52.9900], "CURITIBANOS": [-27.2800, -50.5800], "SANTA CECÍLIA": [-26.9600, -50.4200],
-        "LEBON RÉGIS": [-26.9300, -50.6900], "PONTE ALTA DO NORTE": [-27.1600, -50.5900], "SÃO CRISTÓVÃO DO SUL": [-27.2600, -50.4400],
-        "ABELARDO LUZ": [-26.5600, -52.3300], "SÃO DOMINGOS": [-26.5600, -52.5300], "PONTE SERRADA": [-26.8700, -52.0100],
-        "FAXINAL DOS GUEDES": [-26.8500, -52.2600], "ENTRE RIOS": [-26.7200, -52.5600], "SÃO LOURENÇO DO OESTE": [-26.3600, -52.8500],
-        "CAMPO ERÊ": [-26.3900, -53.0800], "SÃO BERNARDINO": [-26.4700, -52.9700], "GALVÃO": [-26.4500, -52.6800],
-        "CORONEL MARTINS": [-26.6000, -52.6800], "JOAÇABA": [-27.1700, -51.5000], "HERVAL D'OESTE": [-27.1800, -51.4900],
-        "TREZE TÍLIAS": [-27.0000, -51.4100], "ÁGUA DOCE": [-26.9900, -51.5500], "ERVAL VELHO": [-27.2700, -51.4400],
-        "LACERDÓPOLIS": [-27.2600, -51.5500], "CAMPOS NOVOS": [-27.4000, -51.2200], "TANGARÁ": [-27.1000, -51.1500],
-        "VARGEM": [-27.4800, -50.9800], "ABDON BATISTA": [-27.6100, -51.0200], "BRUNÓPOLIS": [-27.3100, -50.9100],
-        "CONCÓRDIA": [-27.2300, -52.0300], "SEARA": [-27.1500, -52.3100], "IPUMIRIM": [-27.0800, -52.1300],
-        "LINDOIA DO SUL": [-27.1900, -52.0900], "ITÁ": [-27.2800, -52.3200], "ARABUTÃ": [-27.1500, -52.1400],
-        "IRANI": [-26.9500, -51.8500], "CAPINZAL": [-27.3400, -51.6100], "PIRATUBA": [-27.4200, -51.7800],
-        "OURO": [-27.3300, -51.6200], "IPIRA": [-27.4000, -51.7700], "VIDEIRA": [-27.0000, -51.1500],
-        "FRAIBURGO": [-27.0200, -50.9200], "PINHEIRO PRETO": [-27.0500, -51.2200], "ARROIO TRINTA": [-26.9200, -51.2100],
-        "IOMERÊ": [-27.0000, -51.2400], "CAÇADOR": [-26.7700, -51.0100], "TIMBÓ GRANDE": [-26.6100, -50.6700],
-        "MACIEIRA": [-26.8500, -51.3800], "CALMON": [-26.6000, -51.0900], "MATOS COSTA": [-26.4700, -51.1500],
-        "PORTO UNIÃO": [-26.2300, -51.0800], "IRINEÓPOLIS": [-26.2300, -50.8000], "CANOINHAS": [-26.1700, -50.4400],
-        "TRÊS BARRAS": [-26.1100, -50.3200], "BELA VISTA DO TOLDO": [-26.2700, -50.4600], "MAFRA": [-26.1100, -49.8000],
-        "ITAIÓPOLIS": [-26.3300, -49.9000], "PAPANDUVA": [-26.3600, -50.1400], "MONTE CASTELO": [-26.4600, -50.2300],
-        "SANTA TEREZINHA": [-26.7800, -50.0100], "SÃO BENTO DO SUL": [-26.2500, -49.3800], "RIO NEGRINHO": [-26.2500, -49.5200],
-        "CAMPO ALEGRE": [-26.1900, -49.2600], "JOINVILLE": [-26.3000, -48.8400], "SÃO FRANCISCO DO SUL": [-26.2400, -48.6300],
-        "ARAQUARI": [-26.3700, -48.7200], "GARUVA": [-26.0300, -48.8500], "ITAPOÁ": [-26.1100, -48.6100],
-        "BALNEÁRIO BARRA DO SUL": [-26.4500, -48.6100], "JARAGUÁ DO SUL": [-26.4800, -49.0800], "GUARAMIRIM": [-26.4700, -49.0000],
-        "SCHROEDER": [-26.4100, -49.0700], "CORUPÁ": [-26.4400, -49.2400], "MASSARANDUBA": [-26.6100, -49.0000],
-        "BALNEÁRIO CAMBORIÚ": [-26.9900, -48.6300], "CAMBORIÚ": [-27.0200, -48.6500], "ITAPEMA": [-27.0900, -48.6100],
-        "PORTO BELO": [-27.1500, -48.5500], "BOMBINHAS": [-27.1300, -48.4800], "NAVEGANTES": [-26.8900, -48.6500],
-        "PENHA": [-26.7600, -48.6400], "BALNEÁRIO PIÇARRAS": [-26.7600, -48.6700], "LUIZ ALVES": [-26.7200, -48.9300],
-        "BLUMENAU": [-26.9100, -49.0600], "GASPAR": [-26.9300, -48.9500], "INDAIAL": [-26.8900, -49.2300],
-        "TIMBÓ": [-26.8200, -49.2700], "POMERODE": [-26.7400, -49.1700], "BENEDITO NOVO": [-26.7800, -49.3600],
-        "RIO DOS CEDROS": [-26.7300, -49.2700], "ILHOTA": [-26.8900, -48.8200], "BRUSQUE": [-27.0900, -48.9100],
-        "GUABIRUBA": [-27.0800, -48.9800], "BOTUVERÁ": [-27.2000, -49.1400], "SÃO JOÃO BATISTA": [-27.2700, -48.8400],
-        "CANELINHA": [-27.2600, -48.7600], "TIJUCAS": [-27.2400, -48.6300], "NOVA TRENTO": [-27.2800, -48.9300],
-        "RIO DO SUL": [-27.2100, -49.6400], "IBIRAMA": [-27.0500, -49.5200], "PRESIDENTE GETÚLIO": [-27.0500, -49.6200],
-        "LONTRAS": [-27.1600, -49.5300], "AURORA": [-27.2600, -49.6300], "LAURENTINO": [-27.2200, -49.7300],
-        "RIOS DO OESTE": [-27.1900, -49.8000], "DONA EMMA": [-27.0000, -49.7200], "WITMARSUM": [-26.9200, -49.7900],
-        "PRESIDENTE NEREU": [-27.2700, -49.3800], "ITUPORANGA": [-27.4000, -49.6000], "PETROLÂNDIA": [-27.5300, -49.7000],
-        "VIDAL RAMOS": [-27.3900, -49.3600], "IMBUIA": [-27.4800, -49.4200], "ALFREDO WAGNER": [-27.7000, -49.2000],
-        "TAIÓ": [-27.1100, -49.9900], "POUSO REDONDO": [-27.2500, -49.9700], "SALETE": [-26.9800, -50.0000],
-        "RIO DO CAMPO": [-26.9400, -50.1300], "MIRIM DOCE": [-27.1900, -50.0800], "LAGES": [-27.8100, -50.3200],
-        "OTACÍLIO COSTA": [-27.4800, -50.1100], "CORREIA PINTO": [-27.5800, -50.3600], "PONTE ALTA": [-27.4800, -50.3700],
-        "BOCAINA DO SUL": [-27.7400, -50.1100], "SÃO JOSÉ DO CERRITO": [-27.6600, -50.6400], "PALMEIRA": [-27.5800, -50.1500],
-        "SÃO JOAQUIM": [-28.2700, -49.9300], "URUPEMA": [-27.9500, -49.8700], "URUBICI": [-28.0100, -49.5900],
-        "BOM RETIRO": [-27.7900, -49.4900], "BOM JARDIM DA SERRA": [-28.3300, -49.6200], "RIO FORTUNA": [-28.1300, -49.1000],
-        "BRAÇO DO NORTE": [-28.2700, -49.1700], "SÃO LUDGERO": [-28.3200, -49.1700], "SANTA ROSA DE LIMA": [-28.0300, -49.1300],
-        "GRAVATAL": [-28.3200, -49.0300], "ARMAZÉM": [-28.2500, -49.0100], "TUBARÃO": [-28.4600, -48.9900],
-        "CAPIVARI DE BAIXO": [-28.4400, -48.9600], "JAGUARUNA": [-28.6100, -49.0200], "SANGÃO": [-28.6300, -49.1300],
-        "LAGUNA": [-28.4800, -48.7800], "IMBITUBA": [-28.2400, -48.6600], "GAROPABA": [-28.0200, -48.6100],
-        "PAULO LOPES": [-27.9600, -48.6800], "IMARUÍ": [-28.3400, -48.8100], "CRICIÚMA": [-28.6700, -49.3700],
-        "IÇARA": [-28.7100, -49.3000], "COCAL DO SUL": [-28.6000, -49.3200], "MORRO DA FUMAÇA": [-28.6500, -49.2100],
-        "FORQUILHINHA": [-28.7400, -49.4700], "NOVA VENEZA": [-28.6300, -49.4900], "SIDERÓPOLIS": [-28.5900, -49.4200],
-        "TREVISO": [-28.5100, -49.4500], "URUSSANGA": [-28.5200, -49.3200], "ORLEANS": [-28.3500, -49.2900],
-        "LAURO MÜLLER": [-28.3900, -49.3900], "ARARANGUÁ": [-28.9300, -49.4800], "SOMBRIO": [-29.1100, -49.6100],
-        "TURVO": [-28.9200, -49.6700], "MELEIRO": [-28.8200, -49.6300], "BALNEÁRIO GAIVOTA": [-29.1500, -49.5700],
-        "BALNEÁRIO ARROIO DO SILVA": [-28.9800, -49.4100], "MARACAJÁ": [-28.8400, -49.4500], "ERMO": [-28.9800, -49.6400],
-        "PRAIA GRANDE": [-29.1900, -49.9400], "SANTA ROSA DO SUL": [-29.1300, -49.7100], "SÃO JOÃO DO SUL": [-29.2200, -49.8000],
-        "PASSO DE TORRES": [-29.3100, -49.7200], "JACINTO MACHADO": [-28.9900, -49.7600], "BIGUAÇU": [-27.4900, -48.6500],
-        "SANTO AMARO DA IMPERATRIZ": [-27.6800, -48.7700], "ÁGUAS MORNAS": [-27.7000, -48.8200], "ANTÔNIO CARLOS": [-27.5100, -48.7600],
-        "GOVERNADOR CELSO RAMOS": [-27.3100, -48.5500], "SÃO PEDRO DE ALCÂNTARA": [-27.5600, -48.8000],
-        "RANCHO QUEIMADO": [-27.6700, -49.0100], "ANGELINA": [-27.5600, -48.9800], "SÃO BONIFÁCIO": [-27.9000, -48.9200],
-        "ITAPIRANGA": [-27.1600, -53.7100], "SÃO JOÃO DO OESTE": [-27.0900, -53.5900], "IPORÃ DO OESTE": [-26.9800, -53.5300],
-        "MONDAÍ": [-27.1000, -53.4000], "SÃO CARLOS": [-27.0800, -53.0000], "PALMITOS": [-27.0600, -53.1600],
-        "CAIBI": [-27.0700, -53.2400], "CUNHA PORÃ": [-26.8900, -53.1600], "RIQUEZA": [-27.0600, -53.3200]
-    };
-
+    let proepData = {}; let charts = {}; let heatLayer = null;
+    const cityCoords = { "FLORIANÓPOLIS": [-27.5945, -48.5477], "SÃO JOSÉ": [-27.6136, -48.6366], "PALHOÇA": [-27.6430, -48.6650], "XANXERÊ": [-26.8747, -52.4036], "CHAPECÓ": [-27.1000, -52.6150], "SÃO MIGUEL DO OESTE": [-26.7239, -53.5186], "ITAJAÍ": [-26.9078, -48.6619], "GRÃO-PARÁ": [-28.1833, -49.2167], "DESCANSO": [-26.8272, -53.5067], "GUARACIABA": [-26.5986, -53.5175], "MARAVILHA": [-26.7600, -53.1700], "MODELO": [-26.7800, -53.0500], "ROMELÂNDIA": [-26.6800, -53.3200], "IRACEMINHA": [-26.8300, -53.3000], "QUILOMBO": [-26.7300, -52.7300], "PINHALZINHO": [-26.8500, -52.9900], "CURITIBANOS": [-27.2800, -50.5800], "SANTA CECÍLIA": [-26.9600, -50.4200], "LEBON RÉGIS": [-26.9300, -50.6900], "PONTE ALTA DO NORTE": [-27.1600, -50.5900], "SÃO CRISTÓVÃO DO SUL": [-27.2600, -50.4400], "ABELARDO LUZ": [-26.5600, -52.3300], "SÃO DOMINGOS": [-26.5600, -52.5300], "PONTE SERRADA": [-26.8700, -52.0100], "FAXINAL DOS GUEDES": [-26.8500, -52.2600], "ENTRE RIOS": [-26.7200, -52.5600], "SÃO LOURENÇO DO OESTE": [-26.3600, -52.8500], "CAMPO ERÊ": [-26.3900, -53.0800], "SÃO BERNARDINO": [-26.4700, -52.9700], "GALVÃO": [-26.4500, -52.6800], "CORONEL MARTINS": [-26.6000, -52.6800], "JOAÇABA": [-27.1700, -51.5000], "HERVAL D'OESTE": [-27.1800, -51.4900], "TREZE TÍLIAS": [-27.0000, -51.4100], "ÁGUA DOCE": [-26.9900, -51.5500], "ERVAL VELHO": [-27.2700, -51.4400], "LACERDÓPOLIS": [-27.2600, -51.5500], "CAMPOS NOVOS": [-27.4000, -51.2200], "TANGARÁ": [-27.1000, -51.1500], "VARGEM": [-27.4800, -50.9800], "ABDON BATISTA": [-27.6100, -51.0200], "BRUNÓPOLIS": [-27.3100, -50.9100], "CONCÓRDIA": [-27.2300, -52.0300], "SEARA": [-27.1500, -52.3100], "IPUMIRIM": [-27.0800, -52.1300], "LINDOIA DO SUL": [-27.1900, -52.0900], "ITÁ": [-27.2800, -52.3200], "ARABUTÃ": [-27.1500, -52.1400], "IRANI": [-26.9500, -51.8500], "CAPINZAL": [-27.3400, -51.6100], "PIRATUBA": [-27.4200, -51.7800], "OURO": [-27.3300, -51.6200], "IPIRA": [-27.4000, -51.7700], "VIDEIRA": [-27.0000, -51.1500], "FRAIBURGO": [-27.0200, -50.9200], "PINHEIRO PRETO": [-27.0500, -51.2200], "ARROIO TRINTA": [-26.9200, -51.2100], "IOMERÊ": [-27.0000, -51.2400], "CAÇADOR": [-26.7700, -51.0100], "TIMBÓ GRANDE": [-26.6100, -50.6700], "MACIEIRA": [-26.8500, -51.3800], "CALMON": [-26.6000, -51.0900], "MATOS COSTA": [-26.4700, -51.1500], "PORTO UNIÃO": [-26.2300, -51.0800], "IRINEÓPOLIS": [-26.2300, -50.8000], "CANOINHAS": [-26.1700, -50.4400], "TRÊS BARRAS": [-26.1100, -50.3200], "BELA VISTA DO TOLDO": [-26.2700, -50.4600], "MAFRA": [-26.1100, -49.8000], "ITAIÓPOLIS": [-26.3300, -49.9000], "PAPANDUVA": [-26.3600, -50.1400], "MONTE CASTELO": [-26.4600, -50.2300], "SANTA TEREZINHA": [-26.7800, -50.0100], "SÃO BENTO DO SUL": [-26.2500, -49.3800], "RIO NEGRINHO": [-26.2500, -49.5200], "CAMPO ALEGRE": [-26.1900, -49.2600], "JOINVILLE": [-26.3000, -48.8400], "SÃO FRANCISCO DO SUL": [-26.2400, -48.6300], "ARAQUARI": [-26.3700, -48.7200], "GARUVA": [-26.0300, -48.8500], "ITAPOÁ": [-26.1100, -48.6100], "BALNEÁRIO BARRA DO SUL": [-26.4500, -48.6100], "JARAGUÁ DO SUL": [-26.4800, -49.0800], "GUARAMIRIM": [-26.4700, -49.0000], "SCHROEDER": [-26.4100, -49.0700], "CORUPÁ": [-26.4400, -49.2400], "MASSARANDUBA": [-26.6100, -49.0000], "BALNEÁRIO CAMBORIÚ": [-26.9900, -48.6300], "CAMBORIÚ": [-27.0200, -48.6500], "ITAPEMA": [-27.0900, -48.6100], "PORTO BELO": [-27.1500, -48.5500], "BOMBINHAS": [-27.1300, -48.4800], "NAVEGANTES": [-26.8900, -48.6500], "PENHA": [-26.7600, -48.6400], "BALNEÁRIO PIÇARRAS": [-26.7600, -48.6700], "LUIZ ALVES": [-26.7200, -48.9300], "BLUMENAU": [-26.9100, -49.0600], "GASPAR": [-26.9300, -48.9500], "INDAIAL": [-26.8900, -49.2300], "TIMBÓ": [-26.8200, -49.2700], "POMERODE": [-26.7400, -49.1700], "BENEDITO NOVO": [-26.7800, -49.3600], "RIO DOS CEDROS": [-26.7300, -49.2700], "ILHOTA": [-26.8900, -48.8200], "BRUSQUE": [-27.0900, -48.9100], "GUABIRUBA": [-27.0800, -48.9800], "BOTUVERÁ": [-27.2000, -49.1400], "SÃO JOÃO BATISTA": [-27.2700, -48.8400], "CANELINHA": [-27.2600, -48.7600], "TIJUCAS": [-27.2400, -48.6300], "NOVA TRENTO": [-27.2800, -48.9300], "RIO DO SUL": [-27.2100, -49.6400], "IBIRAMA": [-27.0500, -49.5200], "PRESIDENTE GETÚLIO": [-27.0500, -49.6200], "LONTRAS": [-27.1600, -49.5300], "AURORA": [-27.2600, -49.6300], "LAURENTINO": [-27.2200, -49.7300], "RIOS DO OESTE": [-27.1900, -49.8000], "DONA EMMA": [-27.0000, -49.7200], "WITMARSUM": [-26.9200, -49.7900], "PRESIDENTE NEREU": [-27.2700, -49.3800], "ITUPORANGA": [-27.4000, -49.6000], "PETROLÂNDIA": [-27.5300, -49.7000], "VIDAL RAMOS": [-27.3900, -49.3600], "IMBUIA": [-27.4800, -49.4200], "ALFREDO WAGNER": [-27.7000, -49.2000], "TAIÓ": [-27.1100, -49.9900], "POUSO REDONDO": [-27.2500, -49.9700], "SALETE": [-26.9800, -50.0000], "RIO DO CAMPO": [-26.9400, -50.1300], "MIRIM DOCE": [-27.1900, -50.0800], "LAGES": [-27.8100, -50.3200], "OTACÍLIO COSTA": [-27.4800, -50.1100], "CORREIA PINTO": [-27.5800, -50.3600], "PONTE ALTA": [-27.4800, -50.3700], "BOCAINA DO SUL": [-27.7400, -50.1100], "SÃO JOSÉ DO CERRITO": [-27.6600, -50.6400], "PALMEIRA": [-27.5800, -50.1500], "SÃO JOAQUIM": [-28.2700, -49.9300], "URUPEMA": [-27.9500, -49.8700], "URUBICI": [-28.0100, -49.5900], "BOM RETIRO": [-27.7900, -49.4900], "BOM JARDIM DA SERRA": [-28.3300, -49.6200], "RIO FORTUNA": [-28.1300, -49.1000], "BRAÇO DO NORTE": [-28.2700, -49.1700], "SÃO LUDGERO": [-28.3200, -49.1700], "SANTA ROSA DE LIMA": [-28.0300, -49.1300], "GRAVATAL": [-28.3200, -49.0300], "ARMAZÉM": [-28.2500, -49.0100], "TUBARÃO": [-28.4600, -48.9900], "CAPIVARI DE BAIXO": [-28.4400, -48.9600], "JAGUARUNA": [-28.6100, -49.0200], "SANGÃO": [-28.6300, -49.1300], "LAGUNA": [-28.4800, -48.7800], "IMBITUBA": [-28.2400, -48.6600], "GAROPABA": [-28.0200, -48.6100], "PAULO LOPES": [-27.9600, -48.6800], "IMARUÍ": [-28.3400, -48.8100], "CRICIÚMA": [-28.6700, -49.3700], "IÇARA": [-28.7100, -49.3000], "COCAL DO SUL": [-28.6000, -49.3200], "MORRO DA FUMAÇA": [-28.6500, -49.2100], "FORQUILHINHA": [-28.7400, -49.4700], "NOVA VENEZA": [-28.6300, -49.4900], "SIDERÓPOLIS": [-28.5900, -49.4200], "TREVISO": [-28.5100, -49.4500], "URUSSANGA": [-28.5200, -49.3200], "ORLEANS": [-28.3500, -49.2900], "LAURO MÜLLER": [-28.3900, -49.3900], "ARARANGUÁ": [-28.9300, -49.4800], "SOMBRIO": [-29.1100, -49.6100], "TURVO": [-28.9200, -49.6700], "MELEIRO": [-28.8200, -49.6300], "BALNEÁRIO GAIVOTA": [-29.1500, -49.5700], "BALNEÁRIO ARROIO DO SILVA": [-28.9800, -49.4100], "MARACAJÁ": [-28.8400, -49.4500], "ERMO": [-28.9800, -49.6400], "PRAIA GRANDE": [-29.1900, -49.9400], "SANTA ROSA DO SUL": [-29.1300, -49.7100], "SÃO JOÃO DO SUL": [-29.2200, -49.8000], "PASSO DE TORRES": [-29.3100, -49.7200], "JACINTO MACHADO": [-28.9900, -49.7600], "BIGUAÇU": [-27.4900, -48.6500], "SANTO AMARO DA IMPERATRIZ": [-27.6800, -48.7700], "ÁGUAS MORNAS": [-27.7000, -48.8200], "ANTÔNIO CARLOS": [-27.5100, -48.7600], "GOVERNADOR CELSO RAMOS": [-27.3100, -48.5500], "SÃO PEDRO DE ALCÂNTARA": [-27.5600, -48.8000], "RANCHO QUEIMADO": [-27.6700, -49.0100], "ANGELINA": [-27.5600, -48.9800], "SÃO BONIFÁCIO": [-27.9000, -48.9200], "ITAPIRANGA": [-27.1600, -53.7100], "SÃO JOÃO DO OESTE": [-27.0900, -53.5900], "IPORÃ DO OESTE": [-26.9800, -53.5300], "MONDAÍ": [-27.1000, -53.4000], "SÃO CARLOS": [-27.0800, -53.0000], "PALMITOS": [-27.0600, -53.1600], "CAIBI": [-27.0700, -53.2400], "CUNHA PORÃ": [-26.8900, -53.1600], "RIQUEZA": [-27.0600, -53.3200] };
     const map = L.map('map', { zoomControl: false }).setView([-27.2423, -50.2189], 7);
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-
-    fetch('https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-states.geojson')
-        .then(response => response.json())
-        .then(data => {
-            const sc = data.features.find(f => f.properties.sigla === 'SC' || f.properties.name === 'Santa Catarina');
-            if (sc) {
-                L.geoJSON(sc, {
-                    style: { fillColor: '#ED1C24', fillOpacity: 0.02, color: '#231F20', weight: 3 },
-                    interactive: false
-                }).addTo(map);
-            }
-        });
-
-    fetch('https://servicodados.ibge.gov.br/api/v3/malhas/estados/42?formato=application/vnd.geo+json&intrarregiao=municipio&qualidade=minima')
-        .then(res => res.json())
-        .then(munData => {
-            L.geoJSON(munData, {
-                style: { fillColor: '#ffffff', fillOpacity: 0.01, color: '#ced4da', weight: 0.5 },
-                onEachFeature: (feature, layer) => {
-                    const munName = feature.properties.name;
-                    if (munName) {
-                        layer.bindTooltip(munName, { sticky: true, className: 'mun-tooltip' });
-                        const munUpper = munName.toUpperCase().trim();
-                        if (proepData[munUpper]) {
-                            layer.setStyle({ fillColor: '#ED1C24', fillOpacity: 0.15 });
-                            layer.on('click', () => { map.fitBounds(layer.getBounds()); showCityDetails(munUpper); });
-                        }
-                    }
-                }
-            }).addTo(map);
-        });
-
+    fetch('https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-states.geojson').then(r => r.json()).then(data => { const sc = data.features.find(f => f.properties.sigla === 'SC' || f.properties.name === 'Santa Catarina'); if (sc) { L.geoJSON(sc, { style: { fillColor: '#ED1C24', fillOpacity: 0.02, color: '#231F20', weight: 3 }, interactive: false }).addTo(map); } });
+    fetch('https://servicodados.ibge.gov.br/api/v3/malhas/estados/42?formato=application/vnd.geo+json&intrarregiao=municipio&qualidade=minima').then(r => r.json()).then(munData => { L.geoJSON(munData, { style: { fillColor: '#ffffff', fillOpacity: 0.01, color: '#ced4da', weight: 0.5 }, onEachFeature: (f, layer) => { const munName = f.properties.name; if (munName) { layer.bindTooltip(munName, { sticky: true, className: 'mun-tooltip' }); const munUpper = munName.toUpperCase().trim(); if (proepData[munUpper]) { layer.setStyle({ fillColor: '#ED1C24', fillOpacity: 0.15 }); layer.on('click', () => { map.fitBounds(layer.getBounds()); showCityDetails(munUpper); }); } } } }).addTo(map); });
     async function loadData() {
         const { data, error } = await _supabase.from('instituicoes_proep').select('*');
         if (error) return;
         proepData = {};
-        let totais = { inst: 0, mun: new Set(), apr: 0, tur: 0, masc: 0, fem: 0, di: 0, tea: 0 };
+        let totais = { inst: 0, mun: new Set(), apr: 0, tur: 0, masc: 0, fem: 0, di: 0, tea: 0, a14:0, a19:0, a25:0, a40:0, f_inc:0, f_comp:0, m_inc:0, m_comp:0 };
         data.forEach(item => {
             const mun = item.municipio.toUpperCase().trim();
             if (!proepData[mun]) proepData[mun] = [];
-            proepData[mun].push({ name: item.instituicao_nome, ini_t: item.ini_t, ini_a: item.ini_a, pre_t: item.pre_t, pre_a: item.pre_a });
+            proepData[mun].push(item);
             totais.inst++; totais.mun.add(mun);
             totais.apr += (item.ini_a + item.pre_a); totais.tur += (item.ini_t + item.pre_t);
-            totais.masc += item.masculino; totais.fem += item.feminino; totais.di += item.di; totais.tea += item.tea;
+            totais.masc += (item.masculino || 0); totais.fem += (item.feminino || 0);
+            totais.di += (item.di || 0); totais.tea += (item.tea || 0);
+            totais.a14 += (item.age_14_18 || 0); totais.a19 += (item.age_19_24 || 0);
+            totais.a25 += (item.age_25_40 || 0); totais.a40 += (item.age_40_plus || 0);
+            totais.f_inc += (item.fund_inc || 0); totais.f_comp += (item.fund_comp || 0);
+            totais.m_inc += (item.medio_inc || 0); totais.m_comp += (item.medio_comp || 0);
         });
         updateDashboard(totais);
         updateMap();
     }
-
     function updateDashboard(totais) {
         document.getElementById('total-aprendizes-geral').innerText = totais.apr.toLocaleString();
         document.getElementById('total-turmas-geral').innerText = totais.tur;
@@ -510,7 +244,6 @@
         document.querySelector('.stat-grid .stat-box:nth-child(1) .stat-val').innerText = totais.inst;
         updateCharts(totais);
     }
-
     function updateMap() {
         map.eachLayer(layer => { if (layer instanceof L.CircleMarker) map.removeLayer(layer); });
         if (heatLayer) map.removeLayer(heatLayer);
@@ -523,40 +256,36 @@
                 heatPoints.push([coords[0], coords[1], Math.min(totalApr / 50, 1)]);
             }
         });
-        if (typeof L.heatLayer === 'function' && heatPoints.length > 0) {
-            heatLayer = L.heatLayer(heatPoints, { radius: 25, blur: 15, maxZoom: 10, gradient: {0.4: 'blue', 0.6: 'cyan', 0.7: 'lime', 0.8: 'yellow', 1: 'red'} }).addTo(map);
-        }
+        if (typeof L.heatLayer === 'function' && heatPoints.length > 0) heatLayer = L.heatLayer(heatPoints, { radius: 25, blur: 15, maxZoom: 10 }).addTo(map);
     }
-
     function showCityDetails(city) {
         const win = document.getElementById('info-window');
         const list = document.getElementById('inst-list');
-        win.style.display = 'block';
-        document.getElementById('inst-detail').style.display = 'none';
+        win.style.display = 'block'; document.getElementById('inst-detail').style.display = 'none';
         document.getElementById('info-city-name').innerText = city;
         list.innerHTML = '';
         proepData[city].forEach(inst => {
-            const li = document.createElement('li'); li.className = 'inst-item'; li.innerText = inst.name;
+            const li = document.createElement('li'); li.className = 'inst-item'; li.innerText = inst.instituicao_nome;
             li.onclick = () => showInstDetails(inst); list.appendChild(li);
         });
     }
-
     function showInstDetails(inst) {
         document.getElementById('inst-detail').style.display = 'block';
-        document.getElementById('detail-name').innerText = inst.name;
+        document.getElementById('detail-name').innerText = inst.instituicao_nome;
         document.getElementById('val-ini-t').innerText = inst.ini_t; document.getElementById('val-ini-a').innerText = inst.ini_a;
         document.getElementById('val-pre-t').innerText = inst.pre_t; document.getElementById('val-pre-a').innerText = inst.pre_a;
     }
-
     function closeInfo() { document.getElementById('info-window').style.display = 'none'; }
-
-    function updateCharts(totais) {
+    function updateCharts(t) {
         if(charts.sex) charts.sex.destroy();
-        charts.sex = new Chart(document.getElementById('sexChart'), { type: 'doughnut', data: { labels: ['Masc.', 'Fem.'], datasets: [{ data: [totais.masc, totais.fem], backgroundColor: ['#231F20', '#ED1C24'] }] }, options: { maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right' } } } });
+        charts.sex = new Chart(document.getElementById('sexChart'), { type: 'doughnut', data: { labels: ['Masc.', 'Fem.'], datasets: [{ data: [t.masc, t.fem], backgroundColor: ['#231F20', '#ED1C24'] }] }, options: { maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right' } } } });
+        if(charts.age) charts.age.destroy();
+        charts.age = new Chart(document.getElementById('ageChart'), { type: 'bar', data: { labels: ['14-18', '19-24', '25-40', '40+'], datasets: [{ data: [t.a14, t.a19, t.a25, t.a40], backgroundColor: '#ED1C24' }] }, options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { display: false } } } });
         if(charts.def) charts.def.destroy();
-        charts.def = new Chart(document.getElementById('defChart'), { type: 'doughnut', data: { labels: ['DI', 'TEA', 'Outros'], datasets: [{ data: [totais.di, totais.tea, 0], backgroundColor: ['#ED1C24', '#5FB157', '#A1C84D'] }] }, options: { maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
+        charts.def = new Chart(document.getElementById('defChart'), { type: 'doughnut', data: { labels: ['DI', 'TEA', 'Outros'], datasets: [{ data: [t.di, t.tea, 0], backgroundColor: ['#ED1C24', '#5FB157', '#A1C84D'] }] }, options: { maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
+        if(charts.esc) charts.esc.destroy();
+        charts.esc = new Chart(document.getElementById('escChart'), { type: 'bar', data: { labels: ['F.Inc', 'F.Comp', 'M.Inc', 'M.Comp'], datasets: [{ data: [t.f_inc, t.f_comp, t.m_inc, t.m_comp], backgroundColor: ['#231F20', '#5FB157', '#ED1C24', '#A1C84D'] }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false } } } });
     }
-
     const searchInput = document.getElementById('map-search');
     const searchResults = document.getElementById('search-results');
     searchInput.addEventListener('input', e => {
@@ -565,16 +294,15 @@
         const filtered = [];
         Object.keys(proepData).forEach(city => {
             if (city.toLowerCase().includes(term)) filtered.push({ type: 'Cidade', name: city });
-            proepData[city].forEach(inst => { if (inst.name.toLowerCase().includes(term)) filtered.push({ type: 'Instituição', name: inst.name, city: city }); });
+            proepData[city].forEach(inst => { if (inst.instituicao_nome.toLowerCase().includes(term)) filtered.push({ type: 'Instituição', name: inst.instituicao_nome, city: city }); });
         });
         if (filtered.length > 0) {
             searchResults.innerHTML = filtered.slice(0, 8).map(item => `<div class="search-item" onclick="goToLocation('${item.city || item.name}', '${item.type === 'Instituição' ? item.name : ''}')"><strong>${item.name}</strong><br><small>${item.type}${item.city ? ' - '+item.city : ''}</small></div>`).join('');
             searchResults.style.display = 'block';
         } else searchResults.style.display = 'none';
     });
-
     window.goToLocation = (city, instName) => {
-        if (cityCoords[city]) { map.setView(cityCoords[city], 12); showCityDetails(city); if (instName) { const inst = proepData[city].find(i => i.name === instName); if (inst) showInstDetails(inst); } searchResults.style.display = 'none'; searchInput.value = ''; }
+        if (cityCoords[city]) { map.setView(cityCoords[city], 12); showCityDetails(city); if (instName) { const inst = proepData[city].find(i => i.instituicao_nome === instName); if (inst) showInstDetails(inst); } searchResults.style.display = 'none'; searchInput.value = ''; }
     };
     document.addEventListener('click', e => { if (!e.target.closest('.search-container')) searchResults.style.display = 'none'; });
     loadData();
